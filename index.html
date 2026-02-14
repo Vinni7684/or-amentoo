@@ -1,1 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - O Menino, a Toupeira, a Raposa e o Cavalo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Navbar estilo Netflix com transparência */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 4%;
+            background: linear-gradient(180deg, rgba(0,0,0,.7) 10%, transparent);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: #141414;
+        }
+
+        .logo {
+            color: #e50914;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-right: 40px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #b3b3b3;
+        }
+
+        .nav-links a.active {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 20px;
+            color: #fff;
+        }
+
+        .nav-actions i {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 4%;
+        }
+
+        /* Tela inicial */
+        #homeScreen {
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+
+        /* Hero section com background dinâmico */
+        .hero {
+            position: relative;
+            height: 56vw;
+            max-height: 600px;
+            min-height: 400px;
+            margin-bottom: 40px;
+            background: linear-gradient(77deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.3) 50%, transparent 85%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 30%;
+            left: 4%;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3vw;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,.5);
+        }
+
+        .hero-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #e5e5e5;
+            font-size: 1.1vw;
+            font-weight: 500;
+        }
+
+        .hero-info span {
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-info .match {
+            color: #46d369;
+            font-weight: 700;
+        }
+
+        .hero-info .year {
+            border: 1px solid #e5e5e5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9vw;
+        }
+
+        .hero-description {
+            font-size: 1.2vw;
+            line-height: 1.5;
+            color: #e5e5e5;
+            max-width: 500px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1.1vw;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: rgba(255,255,255,0.75);
+        }
+
+        .btn-secondary {
+            background: rgba(109,109,110,0.7);
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(109,109,110,0.4);
+        }
+
+        /* Seções de filmes */
+        .section-title {
+            font-size: 1.4vw;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e5e5e5;
+        }
+
+        .movie-row {
+            margin-bottom: 40px;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            transition: all 0.3s;
+        }
+
+        .movie-card {
+            position: relative;
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            background: #000;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0,0,0,.8);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: opacity 0.3s;
+        }
+
+        .movie-card:hover img {
+            opacity: 0.7;
+        }
+
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 15px 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .movie-card:hover .card-info {
+            opacity: 1;
+        }
+
+        .card-info h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .card-info p {
+            font-size: 0.8rem;
+            color: #b3b3b3;
+        }
+
+        /* Tela do player */
+        #playerScreen {
+            min-height: 100vh;
+            background-color: #000;
+            display: none;
+        }
+
+        .player-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 4%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 30px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .player-header span {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .player-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        .embed-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .embed-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Seção de informações do filme */
+        .movie-info {
+            padding: 40px 4%;
+            background: #141414;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .movie-info h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .movie-info p {
+            color: #b3b3b3;
+            max-width: 800px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .movie-meta {
+            display: flex;
+            gap: 20px;
+            color: #b3b3b3;
+            font-size: 0.9rem;
+        }
+
+        .movie-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Placeholders para cards vazios */
+        .placeholder-card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-radius: 4px;
+            aspect-ratio: 2/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #404040;
+            font-size: 2rem;
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #141414;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-top-color: #e50914;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 6vw;
+            }
+            
+            .hero-info {
+                font-size: 3vw;
+            }
+            
+            .hero-description {
+                font-size: 3.5vw;
+            }
+            
+            .btn-primary, .btn-secondary {
+                font-size: 3vw;
+                padding: 8px 16px;
+            }
+            
+            .section-title {
+                font-size: 4vw;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- TELA INICIAL -->
+    <div id="homeScreen">
+        <!-- Navbar -->
+        <nav class="navbar" id="navbar">
+            <div class="logo">NETFLIX</div>
+            <div class="nav-links">
+                <a href="#" class="active">Início</a>
+                <a href="#">Séries</a>
+                <a href="#">Filmes</a>
+                <a href="#">Bombando</a>
+                <a href="#">Minha lista</a>
+                <a href="#">Navegar por idiomas</a>
+            </div>
+            <div class="nav-actions">
+                <i>🔍</i>
+                <i>🔔</i>
+                <i>👤</i>
+            </div>
+        </nav>
+
+        <!-- Hero Section com a nova imagem -->
+        <section class="hero">
+            <img class="hero-bg" src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+            <div class="hero-content">
+                <h1 class="hero-title">O Menino, a Toupeira,<br>a Raposa e o Cavalo</h1>
+                <div class="hero-info">
+                    <span class="match">98% relevante</span>
+                    <span>2022</span>
+                    <span class="year">12</span>
+                    <span>32 min</span>
+                    <span>Animação</span>
+                </div>
+                <p class="hero-description">
+                    Uma jornada emocionante sobre amizade, esperança e o verdadeiro significado da vida. Baseado no aclamado livro de Charlie Mackesy.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="showPlayer()">
+                        ▶ Assistir
+                    </button>
+                    <button class="btn-secondary">
+                        ℹ Mais informações
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conteúdo principal -->
+        <div class="container">
+            <!-- Linha: Popular na Netflix -->
+            <div class="movie-row">
+                <h2 class="section-title">Popular na Netflix</h2>
+                <div class="movie-grid">
+                    <!-- Card principal -->
+                    <div class="movie-card" onclick="showPlayer()">
+                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                        <div class="card-info">
+                            <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
+                            <p>2022 · 32 min · Animação</p>
+                        </div>
+                    </div>
+                    <!-- Cards placeholder para visual -->
+                    <div class="placeholder-card">🎬</div>
+                    <div class="placeholder-card">🎬</div>
+                    <div class="placeholder-card">🎬</div>
+                    <div class="placeholder-card">🎬</div>
+                </div>
+            </div>
+
+            <!-- Linha: Continue assistindo -->
+            <div class="movie-row">
+                <h2 class="section-title">Continue assistindo</h2>
+                <div class="movie-grid">
+                    <div class="movie-card" onclick="showPlayer()">
+                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                        <div class="card-info">
+                            <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
+                            <p>2022 · 32 min · Animação</p>
+                        </div>
+                    </div>
+                    <div class="placeholder-card">🎬</div>
+                    <div class="placeholder-card">🎬</div>
+                    <div class="placeholder-card">🎬</div>
+                </div>
+            </div>
+
+            <!-- Linha: Minha lista -->
+            <div class="movie-row">
+                <h2 class="section-title">Minha lista</h2>
+                <div class="movie-grid">
+                    <div class="movie-card" onclick="showPlayer()">
+                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                        <div class="card-info">
+                            <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
+                            <p>2022 · 32 min · Animação</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DO PLAYER -->
+    <div id="playerScreen">
+        <!-- Header do player -->
+        <div class="player-header">
+            <button class="back-button" onclick="showHome()">
+                ← Voltar
+            </button>
+            <span>O Menino, a Toupeira, a Raposa e o Cavalo</span>
+        </div>
+
+        <!-- Player -->
+        <div class="player-container">
+            <div class="embed-wrapper">
+                <iframe 
+                    src="https://www.canva.com/design/DAHBVbhzKks/jFFHoHmb5uI1Q9khkCRHEA/watch?embed" 
+                    allow="fullscreen"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Informações do filme -->
+        <div class="movie-info">
+            <h2>O Menino, a Toupeira, a Raposa e o Cavalo</h2>
+            <p>Baseado no livro de Charlie Mackesy, esta animação segue a amizade improvável entre um menino, uma toupeira, uma raposa e um cavalo. Juntos, eles exploram questões sobre bondade, esperança e o verdadeiro significado da vida. Indicado ao Oscar de Melhor Animação em 2023.</p>
+            <div class="movie-meta">
+                <span>📅 2022</span>
+                <span>⏱️ 32 min</span>
+                <span>🎬 Animação</span>
+                <span>👪 Família</span>
+                <span>⭐ 8.5/10</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navegação entre telas
+        function showPlayer() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('playerScreen').style.display = 'block';
+            document.body.style.backgroundColor = '#000';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showHome() {
+            document.getElementById('playerScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'block';
+            document.body.style.backgroundColor = '#141414';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Efeito de scroll na navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Inicialização
+        window.onload = function() {
+            showHome();
+        };
+    </script>
+</body>
+          </html>
