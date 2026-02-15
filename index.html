@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix - O Menino, a Toupeira, a Raposa e o Cavalo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Novidade - Streaming</title>
     <style>
         * {
             margin: 0;
@@ -13,36 +13,141 @@
 
         body {
             font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #141414;
+            background-color: #0f0f0f;
             color: #fff;
             line-height: 1.5;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Navbar estilo Netflix com transparência */
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes heartPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        @keyframes heartAppear {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ===== COOKIE BANNER ===== */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(20,20,20,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(229,9,20,0.2);
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .cookie-banner.active {
+            display: block;
+        }
+
+        .cookie-content {
+            text-align: center;
+        }
+
+        .cookie-content p {
+            color: #b3b3b3;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .cookie-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .cookie-btn.accept {
+            background: #e50914;
+            color: #fff;
+        }
+
+        .cookie-btn.accept:hover {
+            background: #ff0f1f;
+            transform: scale(1.05);
+        }
+
+        .cookie-btn.decline {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .cookie-btn.decline:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* ===== NAVBAR ===== */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 4%;
-            background: linear-gradient(180deg, rgba(0,0,0,.7) 10%, transparent);
+            padding: 15px 4%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
             display: flex;
             align-items: center;
             z-index: 100;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
         }
 
         .navbar.scrolled {
-            background-color: #141414;
+            background: rgba(10,10,10,0.98);
+            backdrop-filter: blur(12px);
+            padding: 12px 4%;
+            border-bottom: 1px solid rgba(229, 9, 20, 0.2);
         }
 
         .logo {
             color: #e50914;
             font-size: 1.8rem;
             font-weight: 700;
-            text-transform: uppercase;
-            margin-right: 40px;
+            margin-right: 30px;
             letter-spacing: -0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:active {
+            transform: scale(0.95);
         }
 
         .nav-links {
@@ -56,10 +161,12 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.2s;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
-            color: #b3b3b3;
+            color: #fff;
         }
 
         .nav-links a.active {
@@ -70,36 +177,92 @@
         .nav-actions {
             margin-left: auto;
             display: flex;
-            gap: 20px;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-actions button {
+            background: none;
+            border: none;
             color: #fff;
-        }
-
-        .nav-actions i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Container principal */
+        .nav-actions button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-actions button:active {
+            transform: scale(0.9);
+        }
+
+        .request-btn {
+            background: rgba(229,9,20,0.2) !important;
+            border: 1px solid rgba(229,9,20,0.3) !important;
+            border-radius: 30px !important;
+            padding: 8px 16px !important;
+            font-size: 0.9rem !important;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .request-btn:hover {
+            background: rgba(229,9,20,0.3) !important;
+        }
+
+        /* ===== CONTAINER ===== */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 4%;
         }
 
-        /* Tela inicial */
+        /* ===== TELA INICIAL ===== */
         #homeScreen {
             min-height: 100vh;
             padding-top: 70px;
+            animation: fadeIn 1s ease;
         }
 
-        /* Hero section com background dinâmico */
+        /* ===== HERO SECTION ===== */
         .hero {
             position: relative;
-            height: 56vw;
+            height: 60vh;
             max-height: 600px;
             min-height: 400px;
             margin-bottom: 40px;
-            background: linear-gradient(77deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.3) 50%, transparent 85%);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(77deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, #0f0f0f, transparent);
+            z-index: 1;
         }
 
         .hero-bg {
@@ -109,36 +272,33 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -1;
         }
 
         .hero-content {
             position: absolute;
-            bottom: 30%;
-            left: 4%;
+            bottom: 15%;
+            left: 5%;
+            right: 5%;
             max-width: 600px;
-            z-index: 2;
+            z-index: 3;
         }
 
         .hero-title {
-            font-size: 3vw;
+            font-size: clamp(1.5rem, 6vw, 3rem);
             font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,.5);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            line-height: 1.2;
         }
 
         .hero-info {
             display: flex;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #e5e5e5;
-            font-size: 1.1vw;
+            font-size: clamp(0.8rem, 3vw, 1rem);
             font-weight: 500;
-        }
-
-        .hero-info span {
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
         }
 
         .hero-info .match {
@@ -146,38 +306,36 @@
             font-weight: 700;
         }
 
-        .hero-info .year {
-            border: 1px solid #e5e5e5;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.9vw;
-        }
-
         .hero-description {
-            font-size: 1.2vw;
+            font-size: clamp(0.8rem, 3vw, 1rem);
             line-height: 1.5;
             color: #e5e5e5;
-            max-width: 500px;
             margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,.5);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .btn-primary, .btn-secondary {
-            padding: 12px 30px;
+            padding: 12px 25px;
             border: none;
             border-radius: 4px;
             font-weight: 600;
-            font-size: 1.1vw;
+            font-size: clamp(0.8rem, 3vw, 1rem);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.2s;
+            gap: 8px;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-primary {
@@ -185,25 +343,39 @@
             color: #000;
         }
 
-        .btn-primary:hover {
-            background: rgba(255,255,255,0.75);
+        .btn-primary:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.8);
         }
 
         .btn-secondary {
             background: rgba(109,109,110,0.7);
             color: #fff;
+            backdrop-filter: blur(5px);
         }
 
-        .btn-secondary:hover {
-            background: rgba(109,109,110,0.4);
+        .btn-secondary:active {
+            transform: scale(0.95);
+            background: rgba(109,109,110,0.9);
         }
 
-        /* Seções de filmes */
+        /* ===== SEÇÕES DE FILMES ===== */
         .section-title {
-            font-size: 1.4vw;
-            font-weight: 600;
+            font-size: clamp(1.2rem, 5vw, 1.5rem);
+            font-weight: 700;
             margin-bottom: 20px;
-            color: #e5e5e5;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #e50914, transparent);
+            max-width: 200px;
         }
 
         .movie-row {
@@ -212,66 +384,282 @@
 
         .movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            transition: all 0.3s;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
         }
 
         .movie-card {
             position: relative;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s ease;
-            background: #000;
+            transition: all 0.3s ease;
+            background: #1a1a1a;
+            aspect-ratio: 2/3;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
-        .movie-card:hover {
-            transform: scale(1.05);
-            z-index: 10;
-            box-shadow: 0 20px 40px rgba(0,0,0,.8);
+        .movie-card:active {
+            transform: scale(0.98);
         }
 
         .movie-card img {
             width: 100%;
-            height: auto;
-            display: block;
-            transition: opacity 0.3s;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .movie-card:hover img {
-            opacity: 0.7;
-        }
-
+        /* Informações do card - SEMPRE VISÍVEL no celular */
         .card-info {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 20px 15px 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            padding: 30px 10px 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
         }
 
-        .movie-card:hover .card-info {
-            opacity: 1;
+        /* No desktop, só aparece no hover */
+        @media (hover: hover) and (pointer: fine) {
+            .card-info {
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .movie-card:hover .card-info {
+                opacity: 1;
+            }
         }
 
         .card-info h3 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 5px;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-info p {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            color: #b3b3b3;
+            margin-bottom: 3px;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: #e50914;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            margin-right: 3px;
+        }
+
+        .dev-badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        /* Botão de coração minimalista */
+        .favorite-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+            padding: 0;
+            line-height: 1;
+        }
+
+        .favorite-btn:active {
+            transform: scale(0.9);
+        }
+
+        .favorite-btn.active {
+            color: #e50914;
+            border-color: #e50914;
+            background: rgba(229,9,20,0.1);
+        }
+
+        .favorite-btn.removing {
+            animation: heartPop 0.3s ease forwards;
+        }
+
+        .favorite-btn.adding {
+            animation: heartAppear 0.3s ease;
+        }
+
+        /* ===== MODAL DE PESQUISA MINIMALISTA ===== */
+        .search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 80px 20px 20px;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-header input {
+            flex: 1;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px 20px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-header input:focus {
+            border-color: #e50914;
+            background: #222;
+        }
+
+        .search-header button {
+            background: #e50914;
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .search-header button:active {
+            transform: scale(0.9);
+        }
+
+        .close-search {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-search:active {
+            background: #e50914;
+            transform: rotate(90deg);
+        }
+
+        .search-results {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            margin-bottom: 5px;
+        }
+
+        .search-result-item:active {
+            background: #2a2a2a;
+            border-color: #e50914;
+        }
+
+        .search-result-item img {
+            width: 45px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .search-result-item h4 {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .not-found {
+            text-align: center;
+            padding: 40px 20px;
             color: #b3b3b3;
         }
 
-        /* Tela do player */
+        .not-found a {
+            color: #e50914;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: 1px solid #e50914;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .not-found a:active {
+            background: #e50914;
+            color: #fff;
+        }
+
+        /* ===== TELA DO PLAYER ===== */
         #playerScreen {
             min-height: 100vh;
-            background-color: #000;
+            background: #000;
             display: none;
         }
 
@@ -279,13 +667,13 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 4%;
-            background: rgba(0,0,0,0.8);
+            padding: 15px 4%;
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(229,9,20,0.2);
         }
 
         .back-button {
@@ -296,325 +684,736 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-right: 30px;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background 0.2s;
+            gap: 8px;
+            margin-right: 20px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.05);
         }
 
-        .back-button:hover {
-            background: rgba(255,255,255,0.1);
+        .back-button:active {
+            background: rgba(229,9,20,0.2);
+            transform: translateX(-3px);
         }
 
         .player-header span {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 500;
             color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .player-container {
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            padding: 80px 4% 30px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(229,9,20,0.2);
+        }
+
+        .youtube-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
             background: #000;
         }
 
-        .embed-wrapper {
-            width: 100%;
-            height: 100%;
-        }
-
-        .embed-wrapper iframe {
+        .youtube-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        /* Seção de informações do filme */
-        .movie-info {
-            padding: 40px 4%;
-            background: #141414;
+        .video-caption {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(20,20,20,0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border-left: 4px solid #e50914;
+        }
+
+        .video-caption h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .video-caption p {
+            color: #b3b3b3;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .video-caption .meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #e5e5e5;
+            flex-wrap: wrap;
+            padding-top: 10px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        .movie-info h2 {
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 2rem;
+        /* ===== TELA DE FAVORITOS ===== */
+        #favoritesScreen {
+            min-height: 100vh;
+            padding-top: 70px;
+            display: none;
         }
 
-        .movie-info p {
-            color: #b3b3b3;
-            max-width: 800px;
-            margin-bottom: 20px;
-            line-height: 1.6;
+        .empty-favorites {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            border: 2px dashed #333;
+            border-radius: 12px;
+            margin-top: 30px;
         }
 
-        .movie-meta {
+        /* ===== RODAPÉ ===== */
+        .footer {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            padding: 25px 4%;
+            margin-top: 50px;
+            border-top: 1px solid rgba(229,9,20,0.1);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            gap: 20px;
-            color: #b3b3b3;
-            font-size: 0.9rem;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
-        .movie-meta span {
+        .footer h3 {
+            color: #b3b3b3;
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .no-ads {
+            color: #46d369;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        /* Placeholders para cards vazios */
-        .placeholder-card {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            border-radius: 4px;
-            aspect-ratio: 2/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #404040;
-            font-size: 2rem;
+        .no-ads::before {
+            content: '🚫';
+            font-size: 1rem;
         }
 
-        /* Loading */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #141414;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .loading.active {
-            display: flex;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #333;
-            border-top-color: #e50914;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero-title {
-                font-size: 6vw;
-            }
-            
-            .hero-info {
-                font-size: 3vw;
-            }
-            
-            .hero-description {
-                font-size: 3.5vw;
-            }
-            
-            .btn-primary, .btn-secondary {
-                font-size: 3vw;
-                padding: 8px 16px;
-            }
-            
-            .section-title {
-                font-size: 4vw;
-            }
-            
+        /* ===== RESPONSIVIDADE EXTRA ===== */
+        @media (max-width: 480px) {
             .movie-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
+
+            .nav-links {
+                display: none;
+            }
+
+            .request-btn span {
+                display: none;
+            }
+
+            .request-btn::before {
+                content: '✚';
+                font-size: 1.2rem;
+            }
+
+            .hero {
+                height: 50vh;
+                min-height: 350px;
+            }
+
+            .hero-content {
+                bottom: 10%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                max-width: 200px;
+            }
+
+            .btn-primary, .btn-secondary {
+                padding: 10px 20px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
-    <!-- Loading -->
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
+    <!-- ===== COOKIE BANNER ===== -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <p>🍪 Usamos cookies para melhorar sua experiência. Ao continuar, você aceita nossa política de privacidade.</p>
+            <div class="cookie-buttons">
+                <button class="cookie-btn accept" onclick="acceptCookies()">Aceitar</button>
+                <button class="cookie-btn decline" onclick="declineCookies()">Recusar</button>
+            </div>
+        </div>
     </div>
 
-    <!-- TELA INICIAL -->
+    <!-- ===== MODAL DE PESQUISA ===== -->
+    <div class="search-modal" id="searchModal">
+        <button class="close-search" onclick="toggleSearch()">✕</button>
+        <div class="search-container">
+            <div class="search-header">
+                <input type="text" id="searchInput" placeholder="Buscar filmes..." onkeyup="handleSearch(event)">
+                <button onclick="performSearch()">🔍</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- ===== TELA INICIAL ===== -->
     <div id="homeScreen">
         <!-- Navbar -->
         <nav class="navbar" id="navbar">
-            <div class="logo">NETFLIX</div>
+            <div class="logo" onclick="showHome()">Novidade</div>
             <div class="nav-links">
-                <a href="#" class="active">Início</a>
-                <a href="#">Séries</a>
-                <a href="#">Filmes</a>
-                <a href="#">Bombando</a>
-                <a href="#">Minha lista</a>
-                <a href="#">Navegar por idiomas</a>
+                <a class="active" onclick="showHome()">Início</a>
+                <a onclick="showFavorites()">Minha lista</a>
+                <a>Séries</a>
+                <a>Filmes</a>
             </div>
             <div class="nav-actions">
-                <i>🔍</i>
-                <i>🔔</i>
-                <i>👤</i>
+                <button onclick="toggleSearch()">🔍</button>
+                <button class="request-btn" onclick="window.open('https://wa.me/5564992887564?text=Olá! Gostaria de pedir um novo filme para o catálogo', '_blank')">
+                    <span>Pedir novo filme</span>
+                </button>
             </div>
         </nav>
 
-        <!-- Hero Section com a nova imagem -->
+        <!-- Hero Section -->
         <section class="hero">
-            <img class="hero-bg" src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+            <img class="hero-bg" src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="Destaque">
             <div class="hero-content">
                 <h1 class="hero-title">O Menino, a Toupeira,<br>a Raposa e o Cavalo</h1>
                 <div class="hero-info">
                     <span class="match">98% relevante</span>
                     <span>2022</span>
-                    <span class="year">12</span>
                     <span>32 min</span>
-                    <span>Animação</span>
                 </div>
-                <p class="hero-description">
-                    Uma jornada emocionante sobre amizade, esperança e o verdadeiro significado da vida. Baseado no aclamado livro de Charlie Mackesy.
-                </p>
+                <p class="hero-description">Uma jornada emocionante sobre amizade, esperança e o verdadeiro significado da vida.</p>
                 <div class="hero-buttons">
-                    <button class="btn-primary" onclick="showPlayer()">
-                        ▶ Assistir
-                    </button>
-                    <button class="btn-secondary">
-                        ℹ Mais informações
-                    </button>
+                    <button class="btn-primary" onclick="showPlayer('filme1')">▶ Assistir</button>
+                    <button class="btn-secondary">ℹ Mais info</button>
                 </div>
             </div>
         </section>
 
         <!-- Conteúdo principal -->
         <div class="container">
-            <!-- Linha: Popular na Netflix -->
+            <!-- Popular na Novidade -->
             <div class="movie-row">
-                <h2 class="section-title">Popular na Netflix</h2>
-                <div class="movie-grid">
-                    <!-- Card principal -->
-                    <div class="movie-card" onclick="showPlayer()">
-                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                <h2 class="section-title">Popular na Novidade</h2>
+                <div class="movie-grid" id="popularGrid">
+                    <!-- Filme 1 -->
+                    <div class="movie-card" onclick="showPlayer('filme1')">
+                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme1')" id="fav-filme1">❤</button>
                         <div class="card-info">
                             <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
-                            <p>2022 · 32 min · Animação</p>
+                            <p>2022 · 32 min</p>
+                            <span class="card-badge">HD</span>
+                            <span class="dev-badge">Indicado pelo dev</span>
                         </div>
                     </div>
-                    <!-- Cards placeholder para visual -->
-                    <div class="placeholder-card">🎬</div>
-                    <div class="placeholder-card">🎬</div>
-                    <div class="placeholder-card">🎬</div>
-                    <div class="placeholder-card">🎬</div>
+                    
+                    <!-- Filme 2 -->
+                    <div class="movie-card" onclick="showPlayer('filme2')">
+                        <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme2')" id="fav-filme2">❤</button>
+                        <div class="card-info">
+                            <h3>Anaconda</h3>
+                            <p>1997 · 89 min</p>
+                            <span class="card-badge">HD</span>
+                        </div>
+                    </div>
+
+                    <!-- Filme 3 -->
+                    <div class="movie-card" onclick="showPlayer('filme3')">
+                        <img src="https://iili.io/qJsPQBn.md.jpg" alt="O Pedrador 2026">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme3')" id="fav-filme3">❤</button>
+                        <div class="card-info">
+                            <h3>O Pedrador 2026</h3>
+                            <p>2026 · 120 min</p>
+                            <span class="card-badge">4K</span>
+                        </div>
+                    </div>
+
+                    <!-- NOVO FILME: Tron Ares -->
+                    <div class="movie-card" onclick="showPlayer('filme4')">
+                        <img src="https://iili.io/qJQqLs1.webp" alt="Tron Ares">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')" id="fav-filme4">❤</button>
+                        <div class="card-info">
+                            <h3>Tron: Ares</h3>
+                            <p>2025 · 119 min</p>
+                            <span class="card-badge">4K</span>
+                            <span class="card-badge">IMAX</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Linha: Continue assistindo -->
+            <!-- Minha Lista (só aparece se tiver itens) -->
+            <div class="movie-row" id="myListRow" style="display: none;">
+                <h2 class="section-title">Minha lista</h2>
+                <div class="movie-grid" id="myListGrid"></div>
+            </div>
+
+            <!-- Continue assistindo -->
             <div class="movie-row">
                 <h2 class="section-title">Continue assistindo</h2>
                 <div class="movie-grid">
-                    <div class="movie-card" onclick="showPlayer()">
-                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                    <div class="movie-card" onclick="showPlayer('filme1')">
+                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme1')">❤</button>
                         <div class="card-info">
                             <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
-                            <p>2022 · 32 min · Animação</p>
+                            <p>2022 · 32 min</p>
                         </div>
                     </div>
-                    <div class="placeholder-card">🎬</div>
-                    <div class="placeholder-card">🎬</div>
-                    <div class="placeholder-card">🎬</div>
-                </div>
-            </div>
-
-            <!-- Linha: Minha lista -->
-            <div class="movie-row">
-                <h2 class="section-title">Minha lista</h2>
-                <div class="movie-grid">
-                    <div class="movie-card" onclick="showPlayer()">
-                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                    <div class="movie-card" onclick="showPlayer('filme2')">
+                        <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme2')">❤</button>
                         <div class="card-info">
-                            <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
-                            <p>2022 · 32 min · Animação</p>
+                            <h3>Anaconda</h3>
+                            <p>1997 · 89 min</p>
+                        </div>
+                    </div>
+                    <div class="movie-card" onclick="showPlayer('filme4')">
+                        <img src="https://iili.io/qJQqLs1.webp" alt="Tron Ares">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')">❤</button>
+                        <div class="card-info">
+                            <h3>Tron: Ares</h3>
+                            <p>2025 · 119 min</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <div class="footer-content">
+                <h3>🔒 Site Seguro</h3>
+                <div class="no-ads">Site sem anúncios</div>
+                <p>© 2026 Novidade Streaming</p>
+            </div>
+        </footer>
     </div>
 
-    <!-- TELA DO PLAYER -->
+    <!-- ===== TELA DE FAVORITOS ===== -->
+    <div id="favoritesScreen">
+        <nav class="navbar">
+            <div class="logo" onclick="showHome()">Novidade</div>
+            <div class="nav-links">
+                <a onclick="showHome()">Início</a>
+                <a class="active" onclick="showFavorites()">Minha lista</a>
+                <a>Séries</a>
+                <a>Filmes</a>
+            </div>
+            <div class="nav-actions">
+                <button onclick="toggleSearch()">🔍</button>
+                <button class="request-btn" onclick="window.open('https://wa.me/5564992887564?text=Olá! Gostaria de pedir um novo filme para o catálogo', '_blank')">
+                    <span>Pedir novo filme</span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h2 class="section-title">Minha lista</h2>
+            <div class="movie-grid" id="favoritesGrid"></div>
+            <div class="empty-favorites" id="emptyFavorites">
+                <p>Sua lista está vazia</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Adicione filmes clicando no ❤️ nos cards</p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <h3>🔒 Site Seguro</h3>
+                <div class="no-ads">Site sem anúncios</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== TELA DO PLAYER ===== -->
     <div id="playerScreen">
-        <!-- Header do player -->
         <div class="player-header">
-            <button class="back-button" onclick="showHome()">
-                ← Voltar
-            </button>
-            <span>O Menino, a Toupeira, a Raposa e o Cavalo</span>
+            <button class="back-button" onclick="showHome()">← Voltar</button>
+            <span id="playerTitle">Carregando...</span>
         </div>
-
-        <!-- Player -->
-        <div class="player-container">
-            <div class="embed-wrapper">
-                <iframe 
-                    src="https://www.canva.com/design/DAHBVbhzKks/jFFHoHmb5uI1Q9khkCRHEA/watch?embed" 
-                    allow="fullscreen"
-                    allowfullscreen>
-                </iframe>
+        <div class="player-container" id="playerContainer"></div>
+        <footer class="footer">
+            <div class="footer-content">
+                <h3>🔒 Site Seguro</h3>
+                <div class="no-ads">Site sem anúncios</div>
             </div>
-        </div>
-
-        <!-- Informações do filme -->
-        <div class="movie-info">
-            <h2>O Menino, a Toupeira, a Raposa e o Cavalo</h2>
-            <p>Baseado no livro de Charlie Mackesy, esta animação segue a amizade improvável entre um menino, uma toupeira, uma raposa e um cavalo. Juntos, eles exploram questões sobre bondade, esperança e o verdadeiro significado da vida. Indicado ao Oscar de Melhor Animação em 2023.</p>
-            <div class="movie-meta">
-                <span>📅 2022</span>
-                <span>⏱️ 32 min</span>
-                <span>🎬 Animação</span>
-                <span>👪 Família</span>
-                <span>⭐ 8.5/10</span>
-            </div>
-        </div>
+        </footer>
     </div>
 
     <script>
-        // Navegação entre telas
-        function showPlayer() {
+        // ===== DADOS DOS FILMES =====
+        const filmes = {
+            filme1: {
+                titulo: "O Menino, a Toupeira, a Raposa e o Cavalo",
+                ano: "2022",
+                duracao: "32 min",
+                genero: "Animação",
+                imagem: "https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg",
+                embed: `
+                    <div class="video-wrapper">
+                        <div class="youtube-container">
+                            <iframe src="https://www.youtube.com/embed/jk38J3Zrz78" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `,
+                legenda: "Baseado no livro de Charlie Mackesy, esta animação emocionante segue a amizade improvável entre um menino, uma toupeira, uma raposa e um cavalo."
+            },
+            filme2: {
+                titulo: "Anaconda",
+                ano: "1997",
+                duracao: "89 min",
+                genero: "Ação/Aventura",
+                imagem: "https://iili.io/qJPG8Xe.jpg",
+                embed: `
+                    <div class="video-wrapper">
+                        <div class="youtube-container">
+                            <iframe src="https://www.youtube.com/embed/4Zw2cyh_2PE" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `,
+                legenda: "Um clássico do cinema de aventura! Uma equipe de filmagem viaja para a Amazônia e se torna refém de um caçador obcecado por capturar a lendária sucuri gigante."
+            },
+            filme3: {
+                titulo: "O Pedrador 2026",
+                ano: "2026",
+                duracao: "120 min",
+                genero: "Ação",
+                imagem: "https://iili.io/qJsPQBn.md.jpg",
+                embed: `
+                    <div class="video-wrapper">
+                        <div class="youtube-container">
+                            <iframe src="https://www.youtube.com/embed/nfcL-kRA0Sk" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `,
+                legenda: "O Pedrador 2026 é a nova sensação do cinema de ação! Prepare-se para cenas eletrizantes e uma história que vai prender você do início ao fim."
+            },
+            // NOVO FILME: Tron Ares
+            filme4: {
+                titulo: "Tron: Ares",
+                ano: "2025",
+                duracao: "119 min",
+                genero: "Ficção Científica/Ação",
+                imagem: "https://iili.io/qJQqLs1.webp",
+                embed: `
+                    <div class="video-wrapper">
+                        <div class="youtube-container">
+                            <iframe src="https://www.youtube.com/embed/uXIePjlLedw" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `,
+                legenda: "Ares, um programa altamente sofisticado, é enviado do mundo digital para o mundo real em uma missão perigosa, marcando o primeiro encontro da humanidade com seres de inteligência artificial. Estrelado por Jared Leto, Greta Lee e Jeff Bridges. Trilha sonora por Nine Inch Nails. [citation:1][citation:4][citation:5]"
+            }
+        };
+
+        // ===== COOKIES =====
+        function checkCookieConsent() {
+            if (!localStorage.getItem('cookieConsent')) {
+                document.getElementById('cookieBanner').classList.add('active');
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieBanner').classList.remove('active');
+        }
+
+        function declineCookies() {
+            localStorage.setItem('cookieConsent', 'declined');
+            document.getElementById('cookieBanner').classList.remove('active');
+        }
+
+        // ===== FAVORITOS =====
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        function saveFavorites() {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavButtons();
+            updateMyListRow();
+        }
+
+        function toggleFavorite(event, filmeId) {
+            event.stopPropagation();
+            const btn = document.getElementById(`fav-${filmeId}`);
+            
+            btn.classList.add('removing');
+            
+            setTimeout(() => {
+                const index = favorites.indexOf(filmeId);
+                if (index === -1) {
+                    favorites.push(filmeId);
+                    btn.classList.remove('removing');
+                    btn.classList.add('adding', 'active');
+                } else {
+                    favorites.splice(index, 1);
+                    btn.classList.remove('removing', 'active');
+                }
+                
+                setTimeout(() => {
+                    btn.classList.remove('adding');
+                }, 300);
+                
+                saveFavorites();
+            }, 200);
+        }
+
+        function updateFavButtons() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const id = btn.id.replace('fav-', '');
+                if (favorites.includes(id)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function updateMyListRow() {
+            const myListRow = document.getElementById('myListRow');
+            const myListGrid = document.getElementById('myListGrid');
+            
+            if (favorites.length === 0) {
+                myListRow.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            favorites.forEach(id => {
+                const f = filmes[id];
+                if (f) {
+                    html += `
+                        <div class="movie-card" onclick="showPlayer('${id}')">
+                            <img src="${f.imagem}" alt="${f.titulo}">
+                            <button class="favorite-btn active" onclick="toggleFavorite(event, '${id}')" id="fav-${id}">❤</button>
+                            <div class="card-info">
+                                <h3>${f.titulo}</h3>
+                                <p>${f.ano} · ${f.duracao}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            myListGrid.innerHTML = html;
+            myListRow.style.display = 'block';
+        }
+
+        function renderFavorites() {
+            const grid = document.getElementById('favoritesGrid');
+            const empty = document.getElementById('emptyFavorites');
+            
+            if (favorites.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            let html = '';
+            favorites.forEach(id => {
+                const f = filmes[id];
+                if (f) {
+                    html += `
+                        <div class="movie-card" onclick="showPlayer('${id}')">
+                            <img src="${f.imagem}" alt="${f.titulo}">
+                            <button class="favorite-btn active" onclick="toggleFavorite(event, '${id}')" id="fav-${id}">❤</button>
+                            <div class="card-info">
+                                <h3>${f.titulo}</h3>
+                                <p>${f.ano} · ${f.duracao}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            grid.innerHTML = html;
+        }
+
+        // ===== NAVEGAÇÃO =====
+        function showHome() {
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('playerScreen').style.display = 'none';
+            document.getElementById('favoritesScreen').style.display = 'none';
+            document.body.style.backgroundColor = '#0f0f0f';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateFavButtons();
+            updateMyListRow();
+        }
+
+        function showFavorites() {
             document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('playerScreen').style.display = 'none';
+            document.getElementById('favoritesScreen').style.display = 'block';
+            document.body.style.backgroundColor = '#0f0f0f';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderFavorites();
+        }
+
+        function showPlayer(filmeId) {
+            const filme = filmes[filmeId];
+            
+            document.getElementById('playerTitle').textContent = filme.titulo;
+            
+            const playerHTML = `
+                ${filme.embed}
+                <div class="video-caption">
+                    <h3>${filme.titulo}</h3>
+                    <p>${filme.legenda}</p>
+                    <div class="meta">
+                        <span>📅 ${filme.ano}</span>
+                        <span>⏱️ ${filme.duracao}</span>
+                        <span>🎬 ${filme.genero}</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('playerContainer').innerHTML = playerHTML;
+            
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('favoritesScreen').style.display = 'none';
             document.getElementById('playerScreen').style.display = 'block';
             document.body.style.backgroundColor = '#000';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showHome() {
-            document.getElementById('playerScreen').style.display = 'none';
-            document.getElementById('homeScreen').style.display = 'block';
-            document.body.style.backgroundColor = '#141414';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // ===== PESQUISA =====
+        function toggleSearch() {
+            const modal = document.getElementById('searchModal');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) {
+                document.getElementById('searchInput').focus();
+            }
         }
 
-        // Efeito de scroll na navbar
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                performSearch();
             }
+        }
+
+        function performSearch() {
+            const term = document.getElementById('searchInput').value.toLowerCase().trim();
+            const results = document.getElementById('searchResults');
+            
+            if (term === '') {
+                results.innerHTML = '<div class="not-found">Digite algo para buscar</div>';
+                return;
+            }
+
+            const found = [];
+            for (let id in filmes) {
+                if (filmes[id].titulo.toLowerCase().includes(term)) {
+                    found.push({ id, ...filmes[id] });
+                }
+            }
+
+            if (found.length > 0) {
+                let html = '';
+                found.forEach(f => {
+                    html += `
+                        <div class="search-result-item" onclick="selectFromSearch('${f.id}')">
+                            <img src="${f.imagem}" alt="${f.titulo}">
+                            <h4>${f.titulo}</h4>
+                            <span>${f.ano}</span>
+                        </div>
+                    `;
+                });
+                results.innerHTML = html;
+            } else {
+                results.innerHTML = `
+                    <div class="not-found">
+                        <p>Nenhum filme encontrado com "${term}"</p>
+                        <a href="https://wa.me/5564992887564?text=Olá! Gostaria de sugerir o filme: ${encodeURIComponent(term)}" target="_blank">Pedir novo filme</a>
+                    </div>
+                `;
+            }
+        }
+
+        function selectFromSearch(filmeId) {
+            toggleSearch();
+            showPlayer(filmeId);
+        }
+
+        // ===== SCROLL EFFECT =====
+        window.addEventListener('scroll', function() {
+            const navbars = document.querySelectorAll('.navbar');
+            navbars.forEach(nav => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
         });
 
-        // Inicialização
+        // ===== INICIALIZAÇÃO =====
         window.onload = function() {
+            checkCookieConsent();
             showHome();
+            updateFavButtons();
+            updateMyListRow();
         };
     </script>
 </body>
-          </html>
+                            </html>
