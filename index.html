@@ -956,7 +956,7 @@
             <div class="movie-row">
                 <h2 class="section-title">Popular na Novidade</h2>
                 <div class="movie-grid" id="popularGrid">
-                    <!-- Filme 1 -->
+                    <!-- Filme 1 - O Menino... -->
                     <div class="movie-card" onclick="showPlayer('filme1')">
                         <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme1')" id="fav-filme1">❤</button>
@@ -968,7 +968,7 @@
                         </div>
                     </div>
                     
-                    <!-- Filme 2 -->
+                    <!-- Filme 2 - Anaconda -->
                     <div class="movie-card" onclick="showPlayer('filme2')">
                         <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme2')" id="fav-filme2">❤</button>
@@ -979,18 +979,18 @@
                         </div>
                     </div>
 
-                    <!-- Filme 3 -->
+                    <!-- Filme 3 - O Pedrador 2026 (agora O Primata) -->
                     <div class="movie-card" onclick="showPlayer('filme3')">
-                        <img src="https://iili.io/qJsPQBn.md.jpg" alt="O Pedrador 2026">
+                        <img src="https://iili.io/qJQ754R.jpg" alt="O Primata">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme3')" id="fav-filme3">❤</button>
                         <div class="card-info">
-                            <h3>O Pedrador 2026</h3>
-                            <p>2026 · 120 min</p>
+                            <h3>O Primata</h3>
+                            <p>2026 · 115 min</p>
                             <span class="card-badge">4K</span>
                         </div>
                     </div>
 
-                    <!-- NOVO FILME: Tron Ares -->
+                    <!-- Filme 4 - Tron Ares -->
                     <div class="movie-card" onclick="showPlayer('filme4')">
                         <img src="https://iili.io/qJQqLs1.webp" alt="Tron Ares">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')" id="fav-filme4">❤</button>
@@ -999,6 +999,28 @@
                             <p>2025 · 119 min</p>
                             <span class="card-badge">4K</span>
                             <span class="card-badge">IMAX</span>
+                        </div>
+                    </div>
+
+                    <!-- NOVO Filme 5 - A Empregada -->
+                    <div class="movie-card" onclick="showPlayer('filme5')">
+                        <img src="https://iili.io/qJDQVd7.md.jpg" alt="A Empregada">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme5')" id="fav-filme5">❤</button>
+                        <div class="card-info">
+                            <h3>A Empregada</h3>
+                            <p>2024 · 110 min</p>
+                            <span class="card-badge">HD</span>
+                        </div>
+                    </div>
+
+                    <!-- NOVO Filme 6 - Imperfeitamente -->
+                    <div class="movie-card" onclick="showPlayer('filme6')">
+                        <img src="https://iili.io/qJDbjaV.webp" alt="Imperfeitamente">
+                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme6')" id="fav-filme6">❤</button>
+                        <div class="card-info">
+                            <h3>Imperfeitamente</h3>
+                            <p>2025 · 105 min</p>
+                            <span class="card-badge">HD</span>
                         </div>
                     </div>
                 </div>
@@ -1010,35 +1032,10 @@
                 <div class="movie-grid" id="myListGrid"></div>
             </div>
 
-            <!-- Continue assistindo -->
-            <div class="movie-row">
+            <!-- Continue assistindo - DINÂMICO baseado em cookies -->
+            <div class="movie-row" id="continueWatchingRow" style="display: none;">
                 <h2 class="section-title">Continue assistindo</h2>
-                <div class="movie-grid">
-                    <div class="movie-card" onclick="showPlayer('filme1')">
-                        <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
-                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme1')">❤</button>
-                        <div class="card-info">
-                            <h3>O Menino, a Toupeira, a Raposa e o Cavalo</h3>
-                            <p>2022 · 32 min</p>
-                        </div>
-                    </div>
-                    <div class="movie-card" onclick="showPlayer('filme2')">
-                        <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
-                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme2')">❤</button>
-                        <div class="card-info">
-                            <h3>Anaconda</h3>
-                            <p>1997 · 89 min</p>
-                        </div>
-                    </div>
-                    <div class="movie-card" onclick="showPlayer('filme4')">
-                        <img src="https://iili.io/qJQqLs1.webp" alt="Tron Ares">
-                        <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')">❤</button>
-                        <div class="card-info">
-                            <h3>Tron: Ares</h3>
-                            <p>2025 · 119 min</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="movie-grid" id="continueWatchingGrid"></div>
             </div>
         </div>
 
@@ -1136,11 +1133,11 @@
                 legenda: "Um clássico do cinema de aventura! Uma equipe de filmagem viaja para a Amazônia e se torna refém de um caçador obcecado por capturar a lendária sucuri gigante."
             },
             filme3: {
-                titulo: "O Pedrador 2026",
+                titulo: "O Primata",
                 ano: "2026",
-                duracao: "120 min",
-                genero: "Ação",
-                imagem: "https://iili.io/qJsPQBn.md.jpg",
+                duracao: "115 min",
+                genero: "Ficção Científica/Suspense",
+                imagem: "https://iili.io/qJQ754R.jpg",
                 embed: `
                     <div class="video-wrapper">
                         <div class="youtube-container">
@@ -1148,9 +1145,8 @@
                         </div>
                     </div>
                 `,
-                legenda: "O Pedrador 2026 é a nova sensação do cinema de ação! Prepare-se para cenas eletrizantes e uma história que vai prender você do início ao fim."
+                legenda: "Perigosamente quase humano. Em um futuro próximo, uma criatura geneticamente modificada desafia os limites entre o animal e o humano, levando a consequências imprevisíveis."
             },
-            // NOVO FILME: Tron Ares
             filme4: {
                 titulo: "Tron: Ares",
                 ano: "2025",
@@ -1164,7 +1160,37 @@
                         </div>
                     </div>
                 `,
-                legenda: "Ares, um programa altamente sofisticado, é enviado do mundo digital para o mundo real em uma missão perigosa, marcando o primeiro encontro da humanidade com seres de inteligência artificial. Estrelado por Jared Leto, Greta Lee e Jeff Bridges. Trilha sonora por Nine Inch Nails. [citation:1][citation:4][citation:5]"
+                legenda: "Ares, um programa altamente sofisticado, é enviado do mundo digital para o mundo real em uma missão perigosa, marcando o primeiro encontro da humanidade com seres de inteligência artificial. Estrelado por Jared Leto."
+            },
+            filme5: {
+                titulo: "A Empregada",
+                ano: "2024",
+                duracao: "110 min",
+                genero: "Suspense/Drama",
+                imagem: "https://iili.io/qJDQVd7.md.jpg",
+                embed: `
+                    <div class="video-wrapper">
+                        <div class="youtube-container">
+                            <iframe src="https://www.youtube.com/embed/jk38J3Zrz78" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `,
+                legenda: "Baseado no best-seller que se tornou um fenômeno mundial. Algumas portas nunca deveriam ser abertas. Uma empregada descobre segredos sombrios escondidos na mansão onde trabalha."
+            },
+            filme6: {
+                titulo: "Imperfeitamente",
+                ano: "2025",
+                duracao: "105 min",
+                genero: "Comédia/Drama",
+                imagem: "https://iili.io/qJDbjaV.webp",
+                embed: `
+                    <div class="video-wrapper">
+                        <div class="youtube-container">
+                            <iframe src="https://www.youtube.com/embed/jk38J3Zrz78" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `,
+                legenda: "Uma comédia emocionante sobre aceitar nossas imperfeições e encontrar beleza no caos da vida cotidiana."
             }
         };
 
@@ -1183,6 +1209,50 @@
         function declineCookies() {
             localStorage.setItem('cookieConsent', 'declined');
             document.getElementById('cookieBanner').classList.remove('active');
+        }
+
+        // ===== CONTINUE ASSISTINDO (histórico) =====
+        let watchHistory = JSON.parse(localStorage.getItem('watchHistory')) || [];
+
+        function addToWatchHistory(filmeId) {
+            // Remove se já existir para adicionar no início (mais recente)
+            watchHistory = watchHistory.filter(id => id !== filmeId);
+            watchHistory.unshift(filmeId);
+            // Mantém apenas os últimos 10 filmes
+            if (watchHistory.length > 10) watchHistory.pop();
+            localStorage.setItem('watchHistory', JSON.stringify(watchHistory));
+            updateContinueWatching();
+        }
+
+        function updateContinueWatching() {
+            const continueRow = document.getElementById('continueWatchingRow');
+            const continueGrid = document.getElementById('continueWatchingGrid');
+            
+            if (watchHistory.length === 0) {
+                continueRow.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            watchHistory.forEach(id => {
+                const f = filmes[id];
+                if (f) {
+                    html += `
+                        <div class="movie-card" onclick="showPlayer('${id}')">
+                            <img src="${f.imagem}" alt="${f.titulo}">
+                            <button class="favorite-btn" onclick="toggleFavorite(event, '${id}')" id="fav-${id}">❤</button>
+                            <div class="card-info">
+                                <h3>${f.titulo}</h3>
+                                <p>${f.ano} · ${f.duracao}</p>
+                                <span class="card-badge">Continuar</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            continueGrid.innerHTML = html;
+            continueRow.style.display = 'block';
         }
 
         // ===== FAVORITOS =====
@@ -1299,6 +1369,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateFavButtons();
             updateMyListRow();
+            updateContinueWatching();
         }
 
         function showFavorites() {
@@ -1312,6 +1383,9 @@
 
         function showPlayer(filmeId) {
             const filme = filmes[filmeId];
+            
+            // Adiciona ao histórico de "Continue Assistindo"
+            addToWatchHistory(filmeId);
             
             document.getElementById('playerTitle').textContent = filme.titulo;
             
@@ -1413,7 +1487,8 @@
             showHome();
             updateFavButtons();
             updateMyListRow();
+            updateContinueWatching();
         };
     </script>
 </body>
-                            </html>
+    </html>
