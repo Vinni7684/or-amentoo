@@ -47,6 +47,18 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 10px 30px rgba(229,9,20,0.2); }
+            50% { box-shadow: 0 20px 50px rgba(229,9,20,0.4); }
+            100% { box-shadow: 0 10px 30px rgba(229,9,20,0.2); }
+        }
+
         /* ===== COOKIE BANNER ===== */
         .cookie-banner {
             position: fixed;
@@ -366,6 +378,8 @@
             color: #fff;
             justify-content: center;
             width: fit-content;
+            margin: 0 auto;
+            animation: glow 2s infinite;
         }
 
         .btn-mega:hover {
@@ -677,7 +691,7 @@
         /* ===== TELA DO PLAYER ===== */
         #playerScreen {
             min-height: 100vh;
-            background: #000;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
             display: none;
         }
 
@@ -730,16 +744,214 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 80px 4% 30px;
+            padding: 100px 4% 40px;
         }
 
+        /* ===== ESTILO PARA FILMES COM BOTÃO MEGA ===== */
+        .mega-movie-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .mega-main-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            background: rgba(20,20,20,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            border: 1px solid rgba(229,9,20,0.2);
+            animation: scaleIn 0.8s ease;
+        }
+
+        .mega-poster-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mega-poster {
+            width: 300px;
+            height: 450px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 3px solid rgba(229,9,20,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .mega-poster:hover {
+            transform: scale(1.02);
+            border-color: #e50914;
+        }
+
+        .mega-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mega-info {
+            text-align: left;
+        }
+
+        .mega-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(229,9,20,0.3);
+        }
+
+        .mega-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            color: #b3b3b3;
+            font-size: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mega-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mega-badge-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mega-badge {
+            background: rgba(229,9,20,0.2);
+            border: 1px solid #e50914;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .mega-description {
+            color: #e5e5e5;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        .mega-button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-mega-large {
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(229,9,20,0.4);
+            animation: float 3s infinite;
+        }
+
+        .btn-mega-large:hover {
+            background: #ff0f1f;
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(229,9,20,0.6);
+        }
+
+        .btn-mega-large:active {
+            transform: scale(0.95);
+        }
+
+        .mega-note {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* ===== FILMES SEMELHANTES ===== */
+        .similar-movies-section {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .similar-movies-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .similar-movies-section h3::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #e50914, transparent);
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .similar-card {
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: #1a1a1a;
+            aspect-ratio: 2/3;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .similar-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 30px rgba(229,9,20,0.3);
+        }
+
+        .similar-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Estilo para filmes com YouTube */
         .video-wrapper {
             width: 100%;
             max-width: 1000px;
             margin: 0 auto 30px;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(229,9,20,0.2);
+            box-shadow: 0 20px 40px rgba(229,9,20,0.3);
+            transition: all 0.5s ease;
+            animation: scaleIn 0.8s ease;
         }
 
         .youtube-container {
@@ -763,38 +975,38 @@
             width: 100%;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 25px;
             background: rgba(20,20,20,0.8);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
-            border-left: 4px solid #e50914;
+            border-radius: 16px;
+            border-left: 6px solid #e50914;
+            color: #fff;
+            animation: slideInLeft 0.8s ease 0.2s both;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .video-caption h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: 700;
         }
 
         .video-caption p {
             color: #b3b3b3;
-            line-height: 1.6;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
+            line-height: 1.8;
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
 
         .video-caption .meta {
             display: flex;
-            gap: 15px;
-            font-size: 0.85rem;
+            gap: 20px;
+            font-size: 0.95rem;
             color: #e5e5e5;
             flex-wrap: wrap;
-            padding-top: 10px;
+            padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 15px;
-        }
-
-        .video-caption .btn-mega {
-            margin-top: 10px;
         }
 
         /* ===== TELA DE FAVORITOS ===== */
@@ -858,6 +1070,34 @@
         }
 
         /* ===== RESPONSIVIDADE EXTRA ===== */
+        @media (max-width: 768px) {
+            .mega-main-section {
+                padding: 20px;
+            }
+
+            .mega-poster {
+                width: 250px;
+                height: 375px;
+            }
+
+            .mega-info h2 {
+                font-size: 2rem;
+            }
+
+            .mega-description {
+                font-size: 1rem;
+            }
+
+            .btn-mega-large {
+                padding: 14px 30px;
+                font-size: 1.1rem;
+            }
+
+            .similar-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
         @media (max-width: 480px) {
             .movie-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -893,6 +1133,24 @@
 
             .btn-primary, .btn-secondary, .btn-mega {
                 padding: 10px 20px;
+            }
+
+            .mega-poster {
+                width: 200px;
+                height: 300px;
+            }
+
+            .mega-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .mega-meta {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+
+            .similar-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -979,7 +1237,7 @@
             <div class="movie-row">
                 <h2 class="section-title">Popular na Novidade</h2>
                 <div class="movie-grid" id="popularGrid">
-                    <!-- Filme 1 - O Menino... (AGORA com botão MEGA) -->
+                    <!-- Filme 1 - O Menino... (MEGA) -->
                     <div class="movie-card" onclick="showPlayer('filme1')">
                         <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme1')" id="fav-filme1">❤</button>
@@ -991,7 +1249,7 @@
                         </div>
                     </div>
                     
-                    <!-- Filme 2 - Anaconda -->
+                    <!-- Filme 2 - Anaconda (YouTube) -->
                     <div class="movie-card" onclick="showPlayer('filme2')">
                         <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme2')" id="fav-filme2">❤</button>
@@ -1002,7 +1260,7 @@
                         </div>
                     </div>
 
-                    <!-- Filme 3 - O Primata -->
+                    <!-- Filme 3 - O Primata (YouTube) -->
                     <div class="movie-card" onclick="showPlayer('filme3')">
                         <img src="https://iili.io/qJQ754R.jpg" alt="O Primata">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme3')" id="fav-filme3">❤</button>
@@ -1013,7 +1271,7 @@
                         </div>
                     </div>
 
-                    <!-- Filme 4 - Predador 2026 -->
+                    <!-- Filme 4 - Predador 2026 (YouTube) -->
                     <div class="movie-card" onclick="showPlayer('filme4')">
                         <img src="https://iili.io/qJsPQBn.md.jpg" alt="Predador 2026">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')" id="fav-filme4">❤</button>
@@ -1025,7 +1283,7 @@
                         </div>
                     </div>
 
-                    <!-- Filme 5 - A Empregada (com botão MEGA) -->
+                    <!-- Filme 5 - A Empregada (MEGA) -->
                     <div class="movie-card" onclick="showPlayer('filme5')">
                         <img src="https://iili.io/qJDQVd7.md.jpg" alt="A Empregada">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme5')" id="fav-filme5">❤</button>
@@ -1036,7 +1294,7 @@
                         </div>
                     </div>
 
-                    <!-- Filme 6 - Imperfeitamente (com botão MEGA) -->
+                    <!-- Filme 6 - Imperfeitamente (MEGA) -->
                     <div class="movie-card" onclick="showPlayer('filme6')">
                         <img src="https://iili.io/qJDbjaV.webp" alt="Imperfeitamente">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme6')" id="fav-filme6">❤</button>
@@ -1129,26 +1387,65 @@
                 titulo: "O Menino, a Toupeira, a Raposa e o Cavalo",
                 ano: "2022",
                 duracao: "32 min",
-                genero: "AnimaÃ§Ã£o",
+                genero: "Animação",
                 imagem: "https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg",
                 embed: `
-                    <div class="video-caption">
-                        <p>${this.legenda}</p>
-                        <div class="meta">
-                            <span>📅 ${this.ano}</span>
-                            <span>⏱️ ${this.duracao}</span>
-                            <span>🎬 ${this.genero}</span>
+                    <div class="mega-movie-container">
+                        <div class="mega-main-section">
+                            <div class="mega-poster-container">
+                                <div class="mega-poster">
+                                    <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino, a Toupeira, a Raposa e o Cavalo">
+                                </div>
+                            </div>
+                            <div class="mega-info">
+                                <h2>O Menino, a Toupeira, a Raposa e o Cavalo</h2>
+                                <div class="mega-meta">
+                                    <span>📅 2022</span>
+                                    <span>⏱️ 32 min</span>
+                                    <span>🎬 Animação</span>
+                                    <span>⭐ 8.5/10</span>
+                                </div>
+                                <div class="mega-badge-container">
+                                    <span class="mega-badge">HD</span>
+                                    <span class="mega-badge">Recomendado</span>
+                                </div>
+                                <p class="mega-description">Baseado no livro de Charlie Mackesy, esta animação emocionante segue a amizade improvável entre um menino, uma toupeira, uma raposa e um cavalo. Juntos, eles exploram questões sobre bondade, esperança e o verdadeiro significado da vida.</p>
+                                <div class="mega-button-wrapper">
+                                    <a href="https://mega.nz/file/WpgiFbZa#b9eJwwbM0-ias3M-z_LXgionYrZPCr-XRdALGYGaTp0" target="_blank" class="btn-mega-large">
+                                        📁 Assistir no MEGA
+                                    </a>
+                                    <div class="mega-note">
+                                        ⚡ Talvez você precisará baixar o aplicativo MEGA para assistir
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <a href="https://mega.nz/file/WpgiFbZa#b9eJwwbM0-ias3M-z_LXgionYrZPCr-XRdALGYGaTp0" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
+                        <div class="similar-movies-section">
+                            <h3>Filmes Semelhantes</h3>
+                            <div class="similar-grid">
+                                <div class="similar-card" onclick="showPlayer('filme2')">
+                                    <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme5')">
+                                    <img src="https://iili.io/qJDQVd7.md.jpg" alt="A Empregada">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme6')">
+                                    <img src="https://iili.io/qJDbjaV.webp" alt="Imperfeitamente">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme3')">
+                                    <img src="https://iili.io/qJQ754R.jpg" alt="O Primata">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `,
-                legenda: "Baseado no livro de Charlie Mackesy, esta animaÃ§Ã£o emocionante segue a amizade improvÃ¡vel entre um menino, uma toupeira, uma raposa e um cavalo."
+                legenda: "Baseado no livro de Charlie Mackesy, esta animação emocionante segue a amizade improvável entre um menino, uma toupeira, uma raposa e um cavalo."
             },
             filme2: {
                 titulo: "Anaconda",
                 ano: "1997",
                 duracao: "89 min",
-                genero: "AÃ§Ã£o/Aventura",
+                genero: "Ação/Aventura",
                 imagem: "https://iili.io/qJPG8Xe.jpg",
                 embed: `
                     <div class="video-wrapper">
@@ -1156,14 +1453,24 @@
                             <iframe src="https://www.youtube.com/embed/4Zw2cyh_2PE" allowfullscreen></iframe>
                         </div>
                     </div>
+                    <div class="video-caption">
+                        <h3>Anaconda</h3>
+                        <p>Um clássico do cinema de aventura! Uma equipe de filmagem viaja para a Amazônia e se torna refém de um caçador obcecado por capturar a lendária sucuri gigante.</p>
+                        <div class="meta">
+                            <span>📅 1997</span>
+                            <span>⏱️ 89 min</span>
+                            <span>🎬 Ação/Aventura</span>
+                            <span>⭐ 6.8/10</span>
+                        </div>
+                    </div>
                 `,
-                legenda: "Um clÃ¡ssico do cinema de aventura! Uma equipe de filmagem viaja para a AmazÃ´nia e se torna refÃ©m de um caÃ§ador obcecado por capturar a lendÃ¡ria sucuri gigante."
+                legenda: "Um clássico do cinema de aventura! Uma equipe de filmagem viaja para a Amazônia e se torna refém de um caçador obcecado por capturar a lendária sucuri gigante."
             },
             filme3: {
                 titulo: "O Primata",
                 ano: "2026",
                 duracao: "115 min",
-                genero: "FicÃ§Ã£o CientÃ­fica/Suspense",
+                genero: "Ficção Científica/Suspense",
                 imagem: "https://iili.io/qJQ754R.jpg",
                 embed: `
                     <div class="video-wrapper">
@@ -1171,14 +1478,24 @@
                             <iframe src="https://www.youtube.com/embed/uXIePjlLedw" allowfullscreen></iframe>
                         </div>
                     </div>
+                    <div class="video-caption">
+                        <h3>O Primata</h3>
+                        <p>Perigosamente quase humano. Em um futuro próximo, uma criatura geneticamente modificada desafia os limites entre o animal e o humano, levando a consequências imprevisíveis.</p>
+                        <div class="meta">
+                            <span>📅 2026</span>
+                            <span>⏱️ 115 min</span>
+                            <span>🎬 Ficção Científica</span>
+                            <span>⭐ 7.2/10</span>
+                        </div>
+                    </div>
                 `,
-                legenda: "Perigosamente quase humano. Em um futuro prÃ³ximo, uma criatura geneticamente modificada desafia os limites entre o animal e o humano, levando a consequÃªncias imprevisÃ­veis."
+                legenda: "Perigosamente quase humano. Em um futuro próximo, uma criatura geneticamente modificada desafia os limites entre o animal e o humano, levando a consequências imprevisíveis."
             },
             filme4: {
                 titulo: "Predador 2026",
                 ano: "2026",
                 duracao: "115 min",
-                genero: "AÃ§Ã£o/FicÃ§Ã£o CientÃ­fica",
+                genero: "Ação/Ficção Científica",
                 imagem: "https://iili.io/qJsPQBn.md.jpg",
                 embed: `
                     <div class="video-wrapper">
@@ -1186,8 +1503,18 @@
                             <iframe src="https://www.youtube.com/embed/nfcL-kRA0Sk" allowfullscreen></iframe>
                         </div>
                     </div>
+                    <div class="video-caption">
+                        <h3>Predador 2026</h3>
+                        <p>A caçada continua. Em 2026, a ameaça mais letal do universo retorna à Terra para uma nova caçada. Prepare-se para o confronto final entre humanos e a criatura mais perigosa já vista.</p>
+                        <div class="meta">
+                            <span>📅 2026</span>
+                            <span>⏱️ 115 min</span>
+                            <span>🎬 Ação</span>
+                            <span>⭐ 7.5/10</span>
+                        </div>
+                    </div>
                 `,
-                legenda: "A caÃ§ada continua. Em 2026, a ameaÃ§a mais letal do universo retorna Ã  Terra para uma nova caÃ§ada. Prepare-se para o confronto final entre humanos e a criatura mais perigosa jÃ¡ vista."
+                legenda: "A caçada continua. Em 2026, a ameaça mais letal do universo retorna à Terra para uma nova caçada."
             },
             filme5: {
                 titulo: "A Empregada",
@@ -1196,36 +1523,114 @@
                 genero: "Suspense/Drama",
                 imagem: "https://iili.io/qJDQVd7.md.jpg",
                 embed: `
-                    <div class="video-caption">
-                        <p>${this.legenda}</p>
-                        <div class="meta">
-                            <span>📅 ${this.ano}</span>
-                            <span>⏱️ ${this.duracao}</span>
-                            <span>🎬 ${this.genero}</span>
+                    <div class="mega-movie-container">
+                        <div class="mega-main-section">
+                            <div class="mega-poster-container">
+                                <div class="mega-poster">
+                                    <img src="https://iili.io/qJDQVd7.md.jpg" alt="A Empregada">
+                                </div>
+                            </div>
+                            <div class="mega-info">
+                                <h2>A Empregada</h2>
+                                <div class="mega-meta">
+                                    <span>📅 2024</span>
+                                    <span>⏱️ 110 min</span>
+                                    <span>🎬 Suspense/Drama</span>
+                                    <span>⭐ 7.8/10</span>
+                                </div>
+                                <div class="mega-badge-container">
+                                    <span class="mega-badge">HD</span>
+                                    <span class="mega-badge">Best-seller</span>
+                                </div>
+                                <p class="mega-description">Baseado no best-seller que se tornou um fenômeno mundial. Algumas portas nunca deveriam ser abertas. Uma empregada descobre segredos sombrios escondidos na mansão onde trabalha.</p>
+                                <div class="mega-button-wrapper">
+                                    <a href="https://mega.nz/file/noRXmazB#7TqMRPnbM0kFuKE3BdRxauV2pRGcT92DscVkC-rgVyM" target="_blank" class="btn-mega-large">
+                                        📁 Assistir no MEGA
+                                    </a>
+                                    <div class="mega-note">
+                                        ⚡ Talvez você precisará baixar o aplicativo MEGA para assistir
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <a href="https://mega.nz/file/noRXmazB#7TqMRPnbM0kFuKE3BdRxauV2pRGcT92DscVkC-rgVyM" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
+                        <div class="similar-movies-section">
+                            <h3>Filmes Semelhantes</h3>
+                            <div class="similar-grid">
+                                <div class="similar-card" onclick="showPlayer('filme1')">
+                                    <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme2')">
+                                    <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme6')">
+                                    <img src="https://iili.io/qJDbjaV.webp" alt="Imperfeitamente">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme4')">
+                                    <img src="https://iili.io/qJsPQBn.md.jpg" alt="Predador">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `,
-                legenda: "Baseado no best-seller que se tornou um fenÃ´meno mundial. Algumas portas nunca deveriam ser abertas. Uma empregada descobre segredos sombrios escondidos na mansÃ£o onde trabalha."
+                legenda: "Baseado no best-seller que se tornou um fenômeno mundial. Algumas portas nunca deveriam ser abertas."
             },
             filme6: {
                 titulo: "Imperfeitamente",
                 ano: "2025",
                 duracao: "105 min",
-                genero: "ComÃ©dia/Drama",
+                genero: "Comédia/Drama",
                 imagem: "https://iili.io/qJDbjaV.webp",
                 embed: `
-                    <div class="video-caption">
-                        <p>${this.legenda}</p>
-                        <div class="meta">
-                            <span>📅 ${this.ano}</span>
-                            <span>⏱️ ${this.duracao}</span>
-                            <span>🎬 ${this.genero}</span>
+                    <div class="mega-movie-container">
+                        <div class="mega-main-section">
+                            <div class="mega-poster-container">
+                                <div class="mega-poster">
+                                    <img src="https://iili.io/qJDbjaV.webp" alt="Imperfeitamente">
+                                </div>
+                            </div>
+                            <div class="mega-info">
+                                <h2>Imperfeitamente</h2>
+                                <div class="mega-meta">
+                                    <span>📅 2025</span>
+                                    <span>⏱️ 105 min</span>
+                                    <span>🎬 Comédia/Drama</span>
+                                    <span>⭐ 8.0/10</span>
+                                </div>
+                                <div class="mega-badge-container">
+                                    <span class="mega-badge">HD</span>
+                                    <span class="mega-badge">Original</span>
+                                </div>
+                                <p class="mega-description">Uma comédia emocionante sobre aceitar nossas imperfeições e encontrar beleza no caos da vida cotidiana.</p>
+                                <div class="mega-button-wrapper">
+                                    <a href="https://mega.nz/file/m5IDQR6A#fB1XVgdlelNaswnwQoH3SZIuzXZrJWB_yMCW2V43bls" target="_blank" class="btn-mega-large">
+                                        📁 Assistir no MEGA
+                                    </a>
+                                    <div class="mega-note">
+                                        ⚡ Talvez você precisará baixar o aplicativo MEGA para assistir
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <a href="https://mega.nz/file/m5IDQR6A#fB1XVgdlelNaswnwQoH3SZIuzXZrJWB_yMCW2V43bls" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
+                        <div class="similar-movies-section">
+                            <h3>Filmes Semelhantes</h3>
+                            <div class="similar-grid">
+                                <div class="similar-card" onclick="showPlayer('filme1')">
+                                    <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme2')">
+                                    <img src="https://iili.io/qJPG8Xe.jpg" alt="Anaconda">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme5')">
+                                    <img src="https://iili.io/qJDQVd7.md.jpg" alt="A Empregada">
+                                </div>
+                                <div class="similar-card" onclick="showPlayer('filme3')">
+                                    <img src="https://iili.io/qJQ754R.jpg" alt="O Primata">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `,
-                legenda: "Uma comÃ©dia emocionante sobre aceitar nossas imperfeiÃ§Ãµes e encontrar beleza no caos da vida cotidiana."
+                legenda: "Uma comédia emocionante sobre aceitar nossas imperfeições e encontrar beleza no caos da vida cotidiana."
             }
         };
 
@@ -1246,14 +1651,12 @@
             document.getElementById('cookieBanner').classList.remove('active');
         }
 
-        // ===== CONTINUE ASSISTINDO (histÃ³rico) =====
+        // ===== CONTINUE ASSISTINDO =====
         let watchHistory = JSON.parse(localStorage.getItem('watchHistory')) || [];
 
         function addToWatchHistory(filmeId) {
-            // Remove se jÃ¡ existir para adicionar no inÃ­cio (mais recente)
             watchHistory = watchHistory.filter(id => id !== filmeId);
             watchHistory.unshift(filmeId);
-            // MantÃ©m apenas os Ãºltimos 10 filmes
             if (watchHistory.length > 10) watchHistory.pop();
             localStorage.setItem('watchHistory', JSON.stringify(watchHistory));
             updateContinueWatching();
@@ -1395,7 +1798,7 @@
             grid.innerHTML = html;
         }
 
-        // ===== NAVEGAÃ‡ÃƒO =====
+        // ===== NAVEGAÇÃO =====
         function showHome() {
             document.getElementById('homeScreen').style.display = 'block';
             document.getElementById('playerScreen').style.display = 'none';
@@ -1419,32 +1822,10 @@
         function showPlayer(filmeId) {
             const filme = filmes[filmeId];
             
-            // Adiciona ao histÃ³rico de "Continue Assistindo"
             addToWatchHistory(filmeId);
             
             document.getElementById('playerTitle').textContent = filme.titulo;
-            
-            // Para filmes com embed do YouTube, mantÃ©m o wrapper
-            let playerHTML;
-            if (filmeId === 'filme2' || filmeId === 'filme3' || filmeId === 'filme4') {
-                playerHTML = `
-                    ${filme.embed}
-                    <div class="video-caption">
-                        <h3>${filme.titulo}</h3>
-                        <p>${filme.legenda}</p>
-                        <div class="meta">
-                            <span>📅 ${filme.ano}</span>
-                            <span>⏱️ ${filme.duracao}</span>
-                            <span>🎬 ${filme.genero}</span>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Para filmes com botÃ£o MEGA, usa apenas a caption
-                playerHTML = filme.embed;
-            }
-            
-            document.getElementById('playerContainer').innerHTML = playerHTML;
+            document.getElementById('playerContainer').innerHTML = filme.embed;
             
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('favoritesScreen').style.display = 'none';
@@ -1523,7 +1904,7 @@
             });
         });
 
-        // ===== INICIALIZAÃ‡ÃƒO =====
+        // ===== INICIALIZAÇÃO =====
         window.onload = function() {
             checkCookieConsent();
             showHome();
@@ -1533,4 +1914,4 @@
         };
     </script>
 </body>
-    </html>
+                        </html>
