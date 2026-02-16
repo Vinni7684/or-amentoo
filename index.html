@@ -324,7 +324,7 @@
             flex-wrap: wrap;
         }
 
-        .btn-primary, .btn-secondary {
+        .btn-primary, .btn-secondary, .btn-mega {
             padding: 12px 25px;
             border: none;
             border-radius: 4px;
@@ -336,6 +336,8 @@
             gap: 8px;
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
+            color: inherit;
         }
 
         .btn-primary {
@@ -357,6 +359,22 @@
         .btn-secondary:active {
             transform: scale(0.95);
             background: rgba(109,109,110,0.9);
+        }
+
+        .btn-mega {
+            background: #e50914;
+            color: #fff;
+            justify-content: center;
+            width: fit-content;
+        }
+
+        .btn-mega:hover {
+            background: #ff0f1f;
+            transform: scale(1.05);
+        }
+
+        .btn-mega:active {
+            transform: scale(0.95);
         }
 
         /* ===== SEÇÕES DE FILMES ===== */
@@ -772,6 +790,11 @@
             flex-wrap: wrap;
             padding-top: 10px;
             border-top: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+        }
+
+        .video-caption .btn-mega {
+            margin-top: 10px;
         }
 
         /* ===== TELA DE FAVORITOS ===== */
@@ -868,7 +891,7 @@
                 max-width: 200px;
             }
 
-            .btn-primary, .btn-secondary {
+            .btn-primary, .btn-secondary, .btn-mega {
                 padding: 10px 20px;
             }
         }
@@ -979,9 +1002,9 @@
                         </div>
                     </div>
 
-                    <!-- Filme 3 - O Pedrador 2026 (agora O Primata) -->
+                    <!-- Filme 3 - O Primata (AGORA com a capa do Tron e descrição do Predador) -->
                     <div class="movie-card" onclick="showPlayer('filme3')">
-                        <img src="https://iili.io/qJQ754R.jpg" alt="O Primata">
+                        <img src="https://iili.io/qJQqLs1.webp" alt="O Primata">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme3')" id="fav-filme3">❤</button>
                         <div class="card-info">
                             <h3>O Primata</h3>
@@ -990,9 +1013,9 @@
                         </div>
                     </div>
 
-                    <!-- Filme 4 - Tron Ares -->
+                    <!-- Filme 4 - Tron Ares (AGORA com a capa do macaco e descrição do Primata) -->
                     <div class="movie-card" onclick="showPlayer('filme4')">
-                        <img src="https://iili.io/qJQqLs1.webp" alt="Tron Ares">
+                        <img src="https://iili.io/qJQ754R.jpg" alt="Tron Ares">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')" id="fav-filme4">❤</button>
                         <div class="card-info">
                             <h3>Tron: Ares</h3>
@@ -1002,7 +1025,7 @@
                         </div>
                     </div>
 
-                    <!-- NOVO Filme 5 - A Empregada -->
+                    <!-- Filme 5 - A Empregada (com botão MEGA) -->
                     <div class="movie-card" onclick="showPlayer('filme5')">
                         <img src="https://iili.io/qJDQVd7.md.jpg" alt="A Empregada">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme5')" id="fav-filme5">❤</button>
@@ -1013,7 +1036,7 @@
                         </div>
                     </div>
 
-                    <!-- NOVO Filme 6 - Imperfeitamente -->
+                    <!-- Filme 6 - Imperfeitamente (com botão MEGA) -->
                     <div class="movie-card" onclick="showPlayer('filme6')">
                         <img src="https://iili.io/qJDbjaV.webp" alt="Imperfeitamente">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme6')" id="fav-filme6">❤</button>
@@ -1137,11 +1160,11 @@
                 ano: "2026",
                 duracao: "115 min",
                 genero: "Ficção Científica/Suspense",
-                imagem: "https://iili.io/qJQ754R.jpg",
+                imagem: "https://iili.io/qJQqLs1.webp", // Capa do Tron (azul)
                 embed: `
                     <div class="video-wrapper">
                         <div class="youtube-container">
-                            <iframe src="https://www.youtube.com/embed/nfcL-kRA0Sk" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/uXIePjlLedw" allowfullscreen></iframe>
                         </div>
                     </div>
                 `,
@@ -1152,11 +1175,11 @@
                 ano: "2025",
                 duracao: "119 min",
                 genero: "Ficção Científica/Ação",
-                imagem: "https://iili.io/qJQqLs1.webp",
+                imagem: "https://iili.io/qJQ754R.jpg", // Capa do macaco (O Primata)
                 embed: `
                     <div class="video-wrapper">
                         <div class="youtube-container">
-                            <iframe src="https://www.youtube.com/embed/uXIePjlLedw" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/nfcL-kRA0Sk" allowfullscreen></iframe>
                         </div>
                     </div>
                 `,
@@ -1169,10 +1192,14 @@
                 genero: "Suspense/Drama",
                 imagem: "https://iili.io/qJDQVd7.md.jpg",
                 embed: `
-                    <div class="video-wrapper">
-                        <div class="youtube-container">
-                            <iframe src="https://www.youtube.com/embed/jk38J3Zrz78" allowfullscreen></iframe>
+                    <div class="video-caption">
+                        <p>${this.legenda}</p>
+                        <div class="meta">
+                            <span>📅 ${this.ano}</span>
+                            <span>⏱️ ${this.duracao}</span>
+                            <span>🎬 ${this.genero}</span>
                         </div>
+                        <a href="https://mega.nz/file/noRXmazB#7TqMRPnbM0kFuKE3BdRxauV2pRGcT92DscVkC-rgVyM" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
                     </div>
                 `,
                 legenda: "Baseado no best-seller que se tornou um fenômeno mundial. Algumas portas nunca deveriam ser abertas. Uma empregada descobre segredos sombrios escondidos na mansão onde trabalha."
@@ -1184,10 +1211,14 @@
                 genero: "Comédia/Drama",
                 imagem: "https://iili.io/qJDbjaV.webp",
                 embed: `
-                    <div class="video-wrapper">
-                        <div class="youtube-container">
-                            <iframe src="https://www.youtube.com/embed/jk38J3Zrz78" allowfullscreen></iframe>
+                    <div class="video-caption">
+                        <p>${this.legenda}</p>
+                        <div class="meta">
+                            <span>📅 ${this.ano}</span>
+                            <span>⏱️ ${this.duracao}</span>
+                            <span>🎬 ${this.genero}</span>
                         </div>
+                        <a href="https://mega.nz/file/m5IDQR6A#fB1XVgdlelNaswnwQoH3SZIuzXZrJWB_yMCW2V43bls" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
                     </div>
                 `,
                 legenda: "Uma comédia emocionante sobre aceitar nossas imperfeições e encontrar beleza no caos da vida cotidiana."
@@ -1399,6 +1430,7 @@
                         <span>⏱️ ${filme.duracao}</span>
                         <span>🎬 ${filme.genero}</span>
                     </div>
+                    ${filmeId === 'filme5' || filmeId === 'filme6' ? '' : ''}
                 </div>
             `;
             
@@ -1491,4 +1523,4 @@
         };
     </script>
 </body>
-    </html>
+                                                                      </html>
