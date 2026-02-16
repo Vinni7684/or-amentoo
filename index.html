@@ -53,12 +53,6 @@
             100% { transform: translateY(0px); }
         }
 
-        @keyframes glow {
-            0% { box-shadow: 0 10px 30px rgba(229,9,20,0.2); }
-            50% { box-shadow: 0 20px 50px rgba(229,9,20,0.4); }
-            100% { box-shadow: 0 10px 30px rgba(229,9,20,0.2); }
-        }
-
         /* ===== COOKIE BANNER ===== */
         .cookie-banner {
             position: fixed;
@@ -371,24 +365,6 @@
         .btn-secondary:active {
             transform: scale(0.95);
             background: rgba(109,109,110,0.9);
-        }
-
-        .btn-mega {
-            background: #e50914;
-            color: #fff;
-            justify-content: center;
-            width: fit-content;
-            margin: 0 auto;
-            animation: glow 2s infinite;
-        }
-
-        .btn-mega:hover {
-            background: #ff0f1f;
-            transform: scale(1.05);
-        }
-
-        .btn-mega:active {
-            transform: scale(0.95);
         }
 
         /* ===== SEÇÕES DE FILMES ===== */
@@ -747,7 +723,7 @@
             padding: 100px 4% 40px;
         }
 
-        /* ===== ESTILO PARA FILMES COM BOTÃO MEGA ===== */
+        /* ===== ESTILO CLEAN PARA FILMES COM BOTÃO MEGA ===== */
         .mega-movie-container {
             width: 100%;
             max-width: 1200px;
@@ -761,34 +737,26 @@
             display: flex;
             flex-direction: column;
             gap: 30px;
-            background: rgba(20,20,20,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            border: 1px solid rgba(229,9,20,0.2);
-            animation: scaleIn 0.8s ease;
+            background: transparent;
+            padding: 20px 0;
         }
 
         .mega-poster-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .mega-poster {
-            width: 300px;
-            height: 450px;
-            border-radius: 16px;
+            width: 280px;
+            height: 420px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            border: 3px solid rgba(229,9,20,0.3);
             transition: transform 0.3s ease;
         }
 
         .mega-poster:hover {
             transform: scale(1.02);
-            border-color: #e50914;
         }
 
         .mega-poster img {
@@ -799,13 +767,16 @@
 
         .mega-info {
             text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .mega-info h2 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 15px;
             color: #fff;
-            text-shadow: 2px 2px 10px rgba(229,9,20,0.3);
+            font-weight: 600;
         }
 
         .mega-meta {
@@ -831,53 +802,52 @@
         }
 
         .mega-badge {
-            background: rgba(229,9,20,0.2);
-            border: 1px solid #e50914;
-            color: #fff;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            background: rgba(229,9,20,0.1);
+            border: none;
+            color: #e50914;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .mega-description {
             color: #e5e5e5;
             line-height: 1.8;
             margin-bottom: 25px;
-            font-size: 1.1rem;
-            max-width: 800px;
+            font-size: 1rem;
         }
 
         .mega-button-wrapper {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .btn-mega-large {
             background: #e50914;
             color: #fff;
             border: none;
-            padding: 16px 40px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.2rem;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 8px;
             transition: all 0.3s ease;
             text-decoration: none;
-            box-shadow: 0 10px 30px rgba(229,9,20,0.4);
-            animation: float 3s infinite;
+            box-shadow: 0 5px 15px rgba(229,9,20,0.2);
         }
 
         .btn-mega-large:hover {
             background: #ff0f1f;
             transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(229,9,20,0.6);
+            box-shadow: 0 8px 20px rgba(229,9,20,0.3);
         }
 
         .btn-mega-large:active {
@@ -886,11 +856,10 @@
 
         .mega-note {
             color: #b3b3b3;
-            font-size: 0.9rem;
-            background: rgba(0,0,0,0.3);
-            padding: 8px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
         }
 
         /* ===== FILMES SEMELHANTES ===== */
@@ -900,40 +869,28 @@
         }
 
         .similar-movies-section h3 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 20px;
             color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .similar-movies-section h3::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, #e50914, transparent);
+            font-weight: 500;
         }
 
         .similar-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
         }
 
         .similar-card {
             cursor: pointer;
             border-radius: 8px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            background: #1a1a1a;
+            transition: transform 0.3s ease;
             aspect-ratio: 2/3;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
         .similar-card:hover {
             transform: scale(1.05);
-            box-shadow: 0 20px 30px rgba(229,9,20,0.3);
         }
 
         .similar-card img {
@@ -947,11 +904,9 @@
             width: 100%;
             max-width: 1000px;
             margin: 0 auto 30px;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(229,9,20,0.3);
-            transition: all 0.5s ease;
-            animation: scaleIn 0.8s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .youtube-container {
@@ -978,18 +933,17 @@
             padding: 25px;
             background: rgba(20,20,20,0.8);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
-            border-left: 6px solid #e50914;
+            border-radius: 12px;
+            border-left: 4px solid #e50914;
             color: #fff;
             animation: slideInLeft 0.8s ease 0.2s both;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .video-caption h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
             color: #fff;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         .video-caption p {
@@ -1071,26 +1025,22 @@
 
         /* ===== RESPONSIVIDADE EXTRA ===== */
         @media (max-width: 768px) {
-            .mega-main-section {
-                padding: 20px;
-            }
-
             .mega-poster {
-                width: 250px;
-                height: 375px;
+                width: 220px;
+                height: 330px;
             }
 
             .mega-info h2 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .mega-description {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
 
             .btn-mega-large {
-                padding: 14px 30px;
-                font-size: 1.1rem;
+                padding: 12px 30px;
+                font-size: 1rem;
             }
 
             .similar-grid {
@@ -1131,13 +1081,13 @@
                 max-width: 200px;
             }
 
-            .btn-primary, .btn-secondary, .btn-mega {
+            .btn-primary, .btn-secondary {
                 padding: 10px 20px;
             }
 
             .mega-poster {
-                width: 200px;
-                height: 300px;
+                width: 180px;
+                height: 270px;
             }
 
             .mega-info h2 {
@@ -1914,4 +1864,4 @@
         };
     </script>
 </body>
-                        </html>
+    </html>
