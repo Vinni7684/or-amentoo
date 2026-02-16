@@ -979,7 +979,7 @@
             <div class="movie-row">
                 <h2 class="section-title">Popular na Novidade</h2>
                 <div class="movie-grid" id="popularGrid">
-                    <!-- Filme 1 - O Menino... -->
+                    <!-- Filme 1 - O Menino... (AGORA com botão MEGA) -->
                     <div class="movie-card" onclick="showPlayer('filme1')">
                         <img src="https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg" alt="O Menino...">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme1')" id="fav-filme1">❤</button>
@@ -1002,7 +1002,7 @@
                         </div>
                     </div>
 
-                    <!-- Filme 3 - O Primata (AGORA com a capa que estava no Tron) -->
+                    <!-- Filme 3 - O Primata -->
                     <div class="movie-card" onclick="showPlayer('filme3')">
                         <img src="https://iili.io/qJQ754R.jpg" alt="O Primata">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme3')" id="fav-filme3">❤</button>
@@ -1013,7 +1013,7 @@
                         </div>
                     </div>
 
-                    <!-- Filme 4 - Predador 2026 (ANTIGO Tron: Ares, AGORA com nome e capa corrigidos) -->
+                    <!-- Filme 4 - Predador 2026 -->
                     <div class="movie-card" onclick="showPlayer('filme4')">
                         <img src="https://iili.io/qJsPQBn.md.jpg" alt="Predador 2026">
                         <button class="favorite-btn" onclick="toggleFavorite(event, 'filme4')" id="fav-filme4">❤</button>
@@ -1129,22 +1129,26 @@
                 titulo: "O Menino, a Toupeira, a Raposa e o Cavalo",
                 ano: "2022",
                 duracao: "32 min",
-                genero: "Animação",
+                genero: "AnimaÃ§Ã£o",
                 imagem: "https://i.ibb.co/FbtFD598/b86b19201475c328b9253ac63751eeeb.jpg",
                 embed: `
-                    <div class="video-wrapper">
-                        <div class="youtube-container">
-                            <iframe src="https://www.youtube.com/embed/jk38J3Zrz78" allowfullscreen></iframe>
+                    <div class="video-caption">
+                        <p>${this.legenda}</p>
+                        <div class="meta">
+                            <span>📅 ${this.ano}</span>
+                            <span>⏱️ ${this.duracao}</span>
+                            <span>🎬 ${this.genero}</span>
                         </div>
+                        <a href="https://mega.nz/file/WpgiFbZa#b9eJwwbM0-ias3M-z_LXgionYrZPCr-XRdALGYGaTp0" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
                     </div>
                 `,
-                legenda: "Baseado no livro de Charlie Mackesy, esta animação emocionante segue a amizade improvável entre um menino, uma toupeira, uma raposa e um cavalo."
+                legenda: "Baseado no livro de Charlie Mackesy, esta animaÃ§Ã£o emocionante segue a amizade improvÃ¡vel entre um menino, uma toupeira, uma raposa e um cavalo."
             },
             filme2: {
                 titulo: "Anaconda",
                 ano: "1997",
                 duracao: "89 min",
-                genero: "Ação/Aventura",
+                genero: "AÃ§Ã£o/Aventura",
                 imagem: "https://iili.io/qJPG8Xe.jpg",
                 embed: `
                     <div class="video-wrapper">
@@ -1153,14 +1157,14 @@
                         </div>
                     </div>
                 `,
-                legenda: "Um clássico do cinema de aventura! Uma equipe de filmagem viaja para a Amazônia e se torna refém de um caçador obcecado por capturar a lendária sucuri gigante."
+                legenda: "Um clÃ¡ssico do cinema de aventura! Uma equipe de filmagem viaja para a AmazÃ´nia e se torna refÃ©m de um caÃ§ador obcecado por capturar a lendÃ¡ria sucuri gigante."
             },
             filme3: {
                 titulo: "O Primata",
                 ano: "2026",
                 duracao: "115 min",
-                genero: "Ficção Científica/Suspense",
-                imagem: "https://iili.io/qJQ754R.jpg", // Capa que estava no Tron
+                genero: "FicÃ§Ã£o CientÃ­fica/Suspense",
+                imagem: "https://iili.io/qJQ754R.jpg",
                 embed: `
                     <div class="video-wrapper">
                         <div class="youtube-container">
@@ -1168,14 +1172,14 @@
                         </div>
                     </div>
                 `,
-                legenda: "Perigosamente quase humano. Em um futuro próximo, uma criatura geneticamente modificada desafia os limites entre o animal e o humano, levando a consequências imprevisíveis."
+                legenda: "Perigosamente quase humano. Em um futuro prÃ³ximo, uma criatura geneticamente modificada desafia os limites entre o animal e o humano, levando a consequÃªncias imprevisÃ­veis."
             },
             filme4: {
                 titulo: "Predador 2026",
                 ano: "2026",
                 duracao: "115 min",
-                genero: "Ação/Ficção Científica",
-                imagem: "https://iili.io/qJsPQBn.md.jpg", // NOVA capa do Predador
+                genero: "AÃ§Ã£o/FicÃ§Ã£o CientÃ­fica",
+                imagem: "https://iili.io/qJsPQBn.md.jpg",
                 embed: `
                     <div class="video-wrapper">
                         <div class="youtube-container">
@@ -1183,7 +1187,7 @@
                         </div>
                     </div>
                 `,
-                legenda: "A caçada continua. Em 2026, a ameaça mais letal do universo retorna à Terra para uma nova caçada. Prepare-se para o confronto final entre humanos e a criatura mais perigosa já vista."
+                legenda: "A caÃ§ada continua. Em 2026, a ameaÃ§a mais letal do universo retorna Ã  Terra para uma nova caÃ§ada. Prepare-se para o confronto final entre humanos e a criatura mais perigosa jÃ¡ vista."
             },
             filme5: {
                 titulo: "A Empregada",
@@ -1202,13 +1206,13 @@
                         <a href="https://mega.nz/file/noRXmazB#7TqMRPnbM0kFuKE3BdRxauV2pRGcT92DscVkC-rgVyM" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
                     </div>
                 `,
-                legenda: "Baseado no best-seller que se tornou um fenômeno mundial. Algumas portas nunca deveriam ser abertas. Uma empregada descobre segredos sombrios escondidos na mansão onde trabalha."
+                legenda: "Baseado no best-seller que se tornou um fenÃ´meno mundial. Algumas portas nunca deveriam ser abertas. Uma empregada descobre segredos sombrios escondidos na mansÃ£o onde trabalha."
             },
             filme6: {
                 titulo: "Imperfeitamente",
                 ano: "2025",
                 duracao: "105 min",
-                genero: "Comédia/Drama",
+                genero: "ComÃ©dia/Drama",
                 imagem: "https://iili.io/qJDbjaV.webp",
                 embed: `
                     <div class="video-caption">
@@ -1221,7 +1225,7 @@
                         <a href="https://mega.nz/file/m5IDQR6A#fB1XVgdlelNaswnwQoH3SZIuzXZrJWB_yMCW2V43bls" target="_blank" class="btn-mega" style="display: inline-flex;">📁 Assistir no MEGA</a>
                     </div>
                 `,
-                legenda: "Uma comédia emocionante sobre aceitar nossas imperfeições e encontrar beleza no caos da vida cotidiana."
+                legenda: "Uma comÃ©dia emocionante sobre aceitar nossas imperfeiÃ§Ãµes e encontrar beleza no caos da vida cotidiana."
             }
         };
 
@@ -1242,14 +1246,14 @@
             document.getElementById('cookieBanner').classList.remove('active');
         }
 
-        // ===== CONTINUE ASSISTINDO (histórico) =====
+        // ===== CONTINUE ASSISTINDO (histÃ³rico) =====
         let watchHistory = JSON.parse(localStorage.getItem('watchHistory')) || [];
 
         function addToWatchHistory(filmeId) {
-            // Remove se já existir para adicionar no início (mais recente)
+            // Remove se jÃ¡ existir para adicionar no inÃ­cio (mais recente)
             watchHistory = watchHistory.filter(id => id !== filmeId);
             watchHistory.unshift(filmeId);
-            // Mantém apenas os últimos 10 filmes
+            // MantÃ©m apenas os Ãºltimos 10 filmes
             if (watchHistory.length > 10) watchHistory.pop();
             localStorage.setItem('watchHistory', JSON.stringify(watchHistory));
             updateContinueWatching();
@@ -1391,7 +1395,7 @@
             grid.innerHTML = html;
         }
 
-        // ===== NAVEGAÇÃO =====
+        // ===== NAVEGAÃ‡ÃƒO =====
         function showHome() {
             document.getElementById('homeScreen').style.display = 'block';
             document.getElementById('playerScreen').style.display = 'none';
@@ -1415,24 +1419,30 @@
         function showPlayer(filmeId) {
             const filme = filmes[filmeId];
             
-            // Adiciona ao histórico de "Continue Assistindo"
+            // Adiciona ao histÃ³rico de "Continue Assistindo"
             addToWatchHistory(filmeId);
             
             document.getElementById('playerTitle').textContent = filme.titulo;
             
-            const playerHTML = `
-                ${filme.embed}
-                <div class="video-caption">
-                    <h3>${filme.titulo}</h3>
-                    <p>${filme.legenda}</p>
-                    <div class="meta">
-                        <span>📅 ${filme.ano}</span>
-                        <span>⏱️ ${filme.duracao}</span>
-                        <span>🎬 ${filme.genero}</span>
+            // Para filmes com embed do YouTube, mantÃ©m o wrapper
+            let playerHTML;
+            if (filmeId === 'filme2' || filmeId === 'filme3' || filmeId === 'filme4') {
+                playerHTML = `
+                    ${filme.embed}
+                    <div class="video-caption">
+                        <h3>${filme.titulo}</h3>
+                        <p>${filme.legenda}</p>
+                        <div class="meta">
+                            <span>📅 ${filme.ano}</span>
+                            <span>⏱️ ${filme.duracao}</span>
+                            <span>🎬 ${filme.genero}</span>
+                        </div>
                     </div>
-                    ${filmeId === 'filme5' || filmeId === 'filme6' ? '' : ''}
-                </div>
-            `;
+                `;
+            } else {
+                // Para filmes com botÃ£o MEGA, usa apenas a caption
+                playerHTML = filme.embed;
+            }
             
             document.getElementById('playerContainer').innerHTML = playerHTML;
             
@@ -1513,7 +1523,7 @@
             });
         });
 
-        // ===== INICIALIZAÇÃO =====
+        // ===== INICIALIZAÃ‡ÃƒO =====
         window.onload = function() {
             checkCookieConsent();
             showHome();
