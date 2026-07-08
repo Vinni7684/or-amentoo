@@ -15,13 +15,12 @@ API_KEY = "BZC-B9D07C898EB94678"
 BASE_URL = "https://brazucasms.com/api/external"
 
 # COLE SEU ACCESS TOKEN DO MERCADO PAGO AQUI
-MP_ACCESS_TOKEN = "APP_USR-SEU-ACCESS-TOKEN-AQUI" 
+MP_ACCESS_TOKEN = "TEST-6297013696826956-070815-f0afa2a7abc86bccfe7987dedcae0296-1555108159" 
 mp_sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
 
 # ==========================================
 # CATÁLOGO DE SERVIÇOS E PREÇOS
 # ==========================================
-# Adicione os serviços da Brazuca aqui (código: Nome e Preço de venda)
 CATALOGO = {
     "ub": {"nome": "Uber", "preco": 4.00},
     "if": {"nome": "iFood", "preco": 5.00},
@@ -60,12 +59,11 @@ iniciar_banco()
 
 @app.route("/servicos")
 def get_servicos():
-    # Envia os preços para o HTML montar a lista
     return jsonify(CATALOGO)
 
 @app.route("/gerar_pagamento", methods=["POST"])
 def gerar_pagamento():
-    data = request.json
+    data = request.json or {}
     servico_cod = data.get("servico")
     
     if servico_cod not in CATALOGO:
@@ -73,26 +71,23 @@ def gerar_pagamento():
         
     preco = CATALOGO[servico_cod]["preco"]
     nome = CATALOGO[servico_cod]["nome"]
-    pedido_id = str(uuid.uuid4()) # Gera um ID único para esse pedido
+    pedido_id = str(uuid.uuid4())
     
-    # Salva o pedido como PENDENTE no banco
     conn = obter_conexao()
     conn.execute('INSERT INTO pedidos (id, servico, status) VALUES (?, ?, ?)', (pedido_id, servico_cod, 'pendente'))
     conn.commit()
     conn.close()
 
-    # Informa ao Mercado Pago qual é a URL do Webhook dinamicamente
     url_base = request.url_root.replace("http://", "https://")
     webhook_url = f"{url_base}webhook"
 
-    # Gera o Pix
     payment_data = {
         "transaction_amount": preco,
         "description": f"Número virtual para {nome}",
         "payment_method_id": "pix",
         "payer": {"email": "cliente.sms@email.com"},
         "external_reference": pedido_id,
-        "notification_url": webhook_url # O MP vai avisar aqui quando for pago!
+        "notification_url": webhook_url
     }
     
     payment_response = mp_sdk.payment().create(payment_data)
@@ -109,27 +104,22 @@ def gerar_pagamento():
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
-    # Essa rota é chamada automaticamente pelo Mercado Pago
     payment_id = request.args.get("data.id")
     
     if payment_id:
         payment_info = mp_sdk.payment().get(payment_id)
         payment = payment_info.get("response", {})
         
-        # Se o cliente pagou de fato:
         if payment.get("status") == "approved":
             pedido_id = payment.get("external_reference")
             
             conn = obter_conexao()
             pedido = conn.execute('SELECT * FROM pedidos WHERE id = ?', (pedido_id,)).fetchone()
             
-            # Se o pedido existe e ainda está aguardando pagamento
             if pedido and pedido['status'] == 'pendente':
-                # Evita que o sistema compre 2 vezes caso o MP avise em duplicidade
                 conn.execute("UPDATE pedidos SET status = 'processando' WHERE id = ?", (pedido_id,))
                 conn.commit()
                 
-                # Compra o número na BrazucaSMS!
                 servico_cod = pedido['servico']
                 r = requests.get(BASE_URL, params={
                     "api_key": API_KEY,
@@ -139,17 +129,14 @@ def webhook():
                     "country": 73
                 })
                 
-                # Se a Brazuca entregou o número:
                 if "ACCESS_NUMBER" in r.text:
                     dados = r.text.split(":")
                     activation_id = dados[1]
                     numero = dados[2]
                     
-                    # Salva o número no banco e avisa que foi ENTREGUE
                     conn.execute("UPDATE pedidos SET status = 'entregue', activation_id = ?, numero = ? WHERE id = ?", 
                                  (activation_id, numero, pedido_id))
                 else:
-                    # Se não tinha número disponível na Brazuca
                     conn.execute("UPDATE pedidos SET status = 'falha_estoque' WHERE id = ?", (pedido_id,))
                 
                 conn.commit()
@@ -159,7 +146,6 @@ def webhook():
 
 @app.route("/status_pedido/<pedido_id>")
 def status_pedido(pedido_id):
-    # O HTML fica perguntando pra essa rota: "O número já chegou?"
     conn = obter_conexao()
     pedido = conn.execute('SELECT * FROM pedidos WHERE id = ?', (pedido_id,)).fetchone()
     conn.close()
@@ -173,7 +159,6 @@ def status_pedido(pedido_id):
         "activation_id": pedido['activation_id']
     })
 
-# Rotas de gerenciamento do SMS (iguais)
 @app.route("/sms/<id>")
 def sms(id):
     r = requests.get(BASE_URL, params={"api_key": API_KEY, "action": "getStatus", "id": id})
@@ -190,4 +175,4 @@ def novosms(id):
     return jsonify({"resposta": r.text})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run()
