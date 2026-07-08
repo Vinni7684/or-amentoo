@@ -4,7 +4,7 @@ import requests
 import sqlite3
 import uuid
 import mercadopago
-import os  # Biblioteca essencial para ler as variáveis ocultas do Render
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -12,7 +12,6 @@ CORS(app)
 # ==========================================
 # CONFIGURAÇÕES DE API (SEGURAS VIA VARIÁVEIS DE AMBIENTE)
 # ==========================================
-# O Python vai buscar os valores direto do painel Environment do Render
 API_KEY = os.environ.get("BRAZUCA_API_KEY")
 BASE_URL = "https://brazucasms.com/api/external"
 
@@ -23,7 +22,7 @@ mp_sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
 # CATÁLOGO DE SERVIÇOS E PREÇOS
 # ==========================================
 CATALOGO = {
-   "ki": {"nome": "99 APP", "preco": 4.14},
+    "ki": {"nome": "99 APP", "preco": 4.14},
     "acme": {"nome": "ACME", "preco": 4.49},
     "bbi": {"nome": "Aiqfome", "preco": 6.70},
     "uk": {"nome": "AirBnb", "preco": 4.14},
@@ -203,7 +202,6 @@ CATALOGO = {
     "zh": {"nome": "Zoho", "preco": 4.14}
 }
 
-
 # ==========================================
 # BANCO DE DADOS DOS PEDIDOS
 # ==========================================
@@ -280,7 +278,17 @@ def gerar_pagamento():
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
-    payment_id = request.args.get("data.id")
+    payment_id = None
+    
+    # 1. Tenta capturar se o Mercado Pago enviar em formato JSON (Webhook Oficial)
+    if request.is_json:
+        payload = request.get_json()
+        if payload and "data" in payload:
+            payment_id = payload["data"].get("id")
+            
+    # 2. Se não achar, tenta capturar via parâmetros de URL (IPN antiga ou fallback)
+    if not payment_id:
+        payment_id = request.args.get("id") or request.args.get("data.id")
     
     if payment_id:
         payment_info = mp_sdk.payment().get(payment_id)
