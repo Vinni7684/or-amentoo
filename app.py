@@ -202,7 +202,7 @@ CATALOGO = {
     "btm": {"nome": "ZeeNow", "preco": 4.60},
     "zh": {"nome": "Zoho", "preco": 4.14}
 }
-}
+
 
 # ==========================================
 # BANCO DE DADOS DOS PEDIDOS
