@@ -22,7 +22,7 @@ mp_sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
 # CATÁLOGO DE SERVIÇOS E PREÇOS
 # ==========================================
 CATALOGO = {
-    "ub": {"nome": "Uber", "preco": 4.00},
+    "ub": {"nome": "Uber", "preco": 1.00},
     "if": {"nome": "iFood", "preco": 5.00},
     "wa": {"nome": "WhatsApp", "preco": 6.50},
     "tg": {"nome": "Telegram", "preco": 4.50}
