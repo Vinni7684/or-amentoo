@@ -4,18 +4,19 @@ import requests
 import sqlite3
 import uuid
 import mercadopago
+import os  # Biblioteca essencial para ler as variáveis ocultas do Render
 
 app = Flask(__name__)
 CORS(app)
 
 # ==========================================
-# CONFIGURAÇÕES DE API
+# CONFIGURAÇÕES DE API (SEGURAS VIA VARIÁVEIS DE AMBIENTE)
 # ==========================================
-API_KEY = "BZC-B9D07C898EB94678"
+# O Python vai buscar os valores direto do painel Environment do Render
+API_KEY = os.environ.get("BRAZUCA_API_KEY")
 BASE_URL = "https://brazucasms.com/api/external"
 
-# CORREÇÃO: O token longo deve ficar entre aspas aqui dentro!
-MP_ACCESS_TOKEN = "APP_USR-6297013696826956-070816-e179fb166ab61accd34513f6dd132f64-1555108159" 
+MP_ACCESS_TOKEN = os.environ.get("MERCADOPAGO_ACCESS_TOKEN")
 mp_sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
 
 # ==========================================
