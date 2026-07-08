@@ -14,9 +14,9 @@ CORS(app)
 API_KEY = "BZC-B9D07C898EB94678"
 BASE_URL = "https://brazucasms.com/api/external"
 
-# COLE SEU ACCESS TOKEN DO MERCADO PAGO AQUI
-MP_ACCESS_TOKEN = "" 
-mp_sdk = mercadopago.SDK(APP_USR-6297013696826956-070815-cdf65314bde336f194c12c6e97fe1003-1555108159)
+# CORREÇÃO: O token longo deve ficar entre aspas aqui dentro!
+MP_ACCESS_TOKEN = "APP_USR-6297013696826956-070816-e179fb166ab61accd34513f6dd132f64-1555108159" 
+mp_sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
 
 # ==========================================
 # CATÁLOGO DE SERVIÇOS E PREÇOS
