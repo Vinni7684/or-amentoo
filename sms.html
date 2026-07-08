@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projeto SMS - Uber</title>
+<title>Projeto SMS Automático</title>
 
 <style>
 *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
@@ -12,197 +12,170 @@ body{ background:#101827; color:#fff; }
 .card{ background:#1f2937; padding:20px; border-radius:15px; margin-bottom:20px; }
 h1{ text-align:center; margin-bottom:20px; }
 button{ width:100%; border:none; padding:14px; border-radius:10px; cursor:pointer; color:white; font-size:15px; margin-top:10px; font-weight:bold; }
+select { width: 100%; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 16px; background: #374151; color: white; border: none;}
 
-.saldo{ background:#16a34a; }
 .pix-btn{ background:#0ea5e9; }
-.comprar{ background:#2563eb; }
 .sms{ background:#d97706; }
 .cancelar{ background:#dc2626; }
 
-.info{ margin-top:15px; background:#111827; padding:12px; border-radius:10px; word-break:break-all; }
+.info{ margin-top:15px; background:#111827; padding:12px; border-radius:10px; word-break:break-all; font-size: 18px; text-align: center; }
 .label{ margin-top:12px; font-weight:bold; color: #9ca3af; font-size: 14px;}
-.status{ text-align:center; margin-top:15px; color:#22c55e; font-weight: bold;}
+.status-text{ text-align:center; margin-top:15px; font-weight: bold; font-size: 18px;}
 
-.valor-saldo { font-size: 28px; font-weight: bold; text-align: center; color: #4ade80;}
 textarea { width: 100%; padding: 10px; border-radius: 5px; background: #374151; color: white; border: none; resize: none; margin-top: 5px; }
 .qr-container { text-align: center; margin-top: 15px; margin-bottom: 15px; }
 .qr-container img { width: 200px; max-width: 100%; border-radius: 10px; border: 4px solid white; }
-</style>
 
+#tela-numero { display: none; }
+</style>
 </head>
 <body>
 
 <div class="container">
+    <h1>Comprar Número</h1>
 
-    <h1>Uber SMS</h1>
+    <div class="card" id="tela-compra">
+        <div class="label">Escolha o Serviço:</div>
+        <select id="lista-servicos">
+            <option value="">Carregando serviços...</option>
+        </select>
 
-    <div class="card">
-        <div class="label" style="text-align: center;">SEU SALDO ATUAL</div>
-        <div class="info valor-saldo" id="saldo">
-            Carregando...
-        </div>
-        <button class="saldo" onclick="consultarSaldo()">Atualizar Saldo</button>
-    </div>
-
-    <div class="card">
-        <div class="label">Adicionar Saldo (R$ 10,00)</div>
-        <button class="pix-btn" id="btn-pix" onclick="gerarPix()">Gerar Pix de Recarga</button>
+        <button class="pix-btn" id="btn-comprar" onclick="gerarPix()">Gerar Pix para Comprar</button>
         
-        <div class="info" id="pix-container" style="display: none;">
-            <div class="label" style="text-align: center;">Escaneie o QR Code:</div>
+        <div id="pix-container" style="display: none;">
+            <div class="label" style="text-align: center; margin-top: 20px;">Escaneie para pagar e aguarde:</div>
             <div class="qr-container">
                 <img id="qr-code-img" src="" alt="QR Code">
             </div>
             
-            <div class="label">Ou código Copia e Cola:</div>
+            <div class="label">Pix Copia e Cola:</div>
             <textarea id="copia-cola" rows="3" readonly></textarea>
             
-            <div class="status" style="color: #fbbf24;">Após pagar, clique em "Atualizar Saldo" no topo.</div>
+            <div class="status-text" id="status-pagamento" style="color: #fbbf24;">Aguardando pagamento... Não feche a página!</div>
         </div>
     </div>
 
-    <div class="card">
-        <div class="label">Serviço: Uber (Custa R$ 5,00)</div>
-        <button class="comprar" onclick="comprarNumero()">Comprar Número</button>
-    </div>
+    <div class="card" id="tela-numero">
+        <div class="status-text" style="color: #22c55e;">Pagamento Aprovado!</div>
+        
+        <div class="label">Seu Número:</div>
+        <div class="info" id="numero" style="color: #4ade80; font-weight: bold; font-size: 24px;">-</div>
 
-    <div class="card">
-        <div class="label">Número</div>
-        <div class="info" id="numero">-</div>
+        <div class="label">Mensagem SMS:</div>
+        <div class="info" id="sms">Aguardando SMS...</div>
 
-        <div class="label">ID da Compra</div>
-        <div class="info" id="id">-</div>
-
-        <div class="label">Mensagem SMS</div>
-        <div class="info" id="sms">Aguardando...</div>
-
-        <button class="sms" onclick="novoSMS()">Solicitar Novo SMS</button>
-        <button class="cancelar" onclick="cancelar()">Cancelar Ativação</button>
-
-        <div class="status" id="status"></div>
+        <button class="sms" onclick="novoSMS()">Solicitar Novo SMS (Se não chegar)</button>
+        <button class="cancelar" onclick="cancelar()">Cancelar Número</button>
     </div>
 
 </div>
 
 <script>
-const API = "http://127.0.0.1:5000";
+// ATENÇÃO: Quando o seu Render terminar de instalar, troque o link abaixo 
+// pelo link que o Render te der (ex: https://meu-projeto.onrender.com)
+const API = "http://127.0.0.1:5000"; 
 
+let pedidoAtual = "";
 let activationId = "";
-let intervalo = null;
+let verificadorPedido = null;
+let verificadorSMS = null;
 
-// ==========================================
-// GERENCIAMENTO DE SESSÃO LOCAL
-// ==========================================
-function getUserId() {
-    let userId = localStorage.getItem('user_id') || "";
-    return userId;
-}
-
-function setUserId(id) {
-    localStorage.setItem('user_id', id);
-}
-
-// Ao carregar a página, já puxa o saldo
-window.onload = function() {
-    consultarSaldo();
+window.onload = async function() {
+    // Carrega a lista de serviços do Python
+    let r = await fetch(API + "/servicos");
+    let servicos = await r.json();
+    
+    let select = document.getElementById("lista-servicos");
+    select.innerHTML = "";
+    
+    for(let cod in servicos) {
+        let op = document.createElement("option");
+        op.value = cod;
+        op.text = servicos[cod].nome + " - R$ " + servicos[cod].preco.toFixed(2);
+        select.appendChild(op);
+    }
 };
 
-// ==========================================
-// FUNÇÕES DA API
-// ==========================================
-
-async function consultarSaldo() {
-    document.getElementById("saldo").innerHTML = "Atualizando...";
-    
-    // Manda o user_id (se tiver) na URL
-    let url = API + "/meu_usuario?user_id=" + getUserId();
-    let r = await fetch(url);
-    let j = await r.json();
-
-    // Salva o ID que o servidor devolveu para não perder o saldo
-    setUserId(j.user_id);
-    
-    // Formata o dinheiro para Reais
-    document.getElementById("saldo").innerHTML = "R$ " + j.saldo_local.toFixed(2);
-}
-
 async function gerarPix() {
-    let btn = document.getElementById("btn-pix");
+    let servico = document.getElementById("lista-servicos").value;
+    let btn = document.getElementById("btn-comprar");
+    
     btn.innerHTML = "Gerando Pix...";
     btn.disabled = true;
 
-    let url = API + "/gerar_pagamento?user_id=" + getUserId();
-    let r = await fetch(url, { method: "POST" });
+    let r = await fetch(API + "/gerar_pagamento", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({servico: servico})
+    });
+    
     let j = await r.json();
 
-    if(j.status === "sucesso") {
+    if(j.pedido_id) {
+        pedidoAtual = j.pedido_id;
         document.getElementById("pix-container").style.display = "block";
         document.getElementById("copia-cola").value = j.copia_e_cola;
         document.getElementById("qr-code-img").src = "data:image/jpeg;base64," + j.qr_code_base64;
-        btn.innerHTML = "Pix Gerado com Sucesso!";
+        btn.style.display = "none";
+        
+        // Começa a verificar de 3 em 3 segundos se o Pix foi pago
+        verificadorPedido = setInterval(checarStatusPagamento, 3000);
     } else {
-        alert("Erro ao gerar Pix: " + j.mensagem);
-        btn.innerHTML = "Tentar Gerar Pix Novamente";
+        alert("Erro: " + j.erro);
+        btn.innerHTML = "Gerar Pix para Comprar";
         btn.disabled = false;
     }
 }
 
-async function comprarNumero() {
-    document.getElementById("status").innerHTML = "Processando compra...";
-
-    let url = API + "/comprar?user_id=" + getUserId();
-    let r = await fetch(url);
+async function checarStatusPagamento() {
+    let r = await fetch(API + "/status_pedido/" + pedidoAtual);
     let j = await r.json();
-
-    if(j.resposta.startsWith("ACCESS_NUMBER")) {
-        let dados = j.resposta.split(":");
-        activationId = dados[1];
+    
+    if(j.status === "entregue") {
+        clearInterval(verificadorPedido); // Para de verificar o pagamento
         
-        document.getElementById("id").innerHTML = activationId;
-        document.getElementById("numero").innerHTML = dados[2];
-        document.getElementById("sms").innerHTML = "Esperando SMS...";
-        document.getElementById("status").innerHTML = "Número comprado!";
+        // Esconde a tela de compra e mostra a tela do número
+        document.getElementById("tela-compra").style.display = "none";
+        document.getElementById("tela-numero").style.display = "block";
         
-        // Atualiza o saldo na tela pois foi descontado
-        if(j.saldo_restante !== undefined) {
-            document.getElementById("saldo").innerHTML = "R$ " + j.saldo_restante.toFixed(2);
-        }
-
-        clearInterval(intervalo);
-        intervalo = setInterval(verSMS, 5000);
-
-    } else {
-        document.getElementById("status").innerHTML = j.resposta;
-        alert(j.resposta); // Dá um alerta caso seja "Saldo insuficiente"
+        document.getElementById("numero").innerHTML = j.numero;
+        activationId = j.activation_id;
+        
+        // Começa a procurar o SMS de 5 em 5 segundos
+        verificadorSMS = setInterval(verSMS, 5000);
+        
+    } else if(j.status === "falha_estoque") {
+        clearInterval(verificadorPedido);
+        document.getElementById("status-pagamento").innerHTML = "Pagamento recebido, mas os números esgotaram! Contate o suporte.";
+        document.getElementById("status-pagamento").style.color = "red";
     }
 }
 
 async function verSMS() {
-    if(activationId == "") return;
+    if(activationId === "") return;
     let r = await fetch(API + "/sms/" + activationId);
     let j = await r.json();
 
     document.getElementById("sms").innerHTML = j.resposta;
 
     if(j.resposta.startsWith("STATUS_OK")) {
-        clearInterval(intervalo);
-        document.getElementById("status").innerHTML = "SMS recebido!";
+        clearInterval(verificadorSMS);
     }
 }
 
 async function cancelar() {
-    if(activationId == "") return;
+    if(activationId === "") return;
     let r = await fetch(API + "/cancelar/" + activationId);
     let j = await r.json();
-    alert(j.resposta);
-    clearInterval(intervalo);
+    alert("Comando de cancelamento enviado!");
+    clearInterval(verificadorSMS);
 }
 
 async function novoSMS() {
-    if(activationId == "") return;
+    if(activationId === "") return;
     let r = await fetch(API + "/novosms/" + activationId);
     let j = await r.json();
-    alert(j.resposta);
+    alert("Aguardando um novo SMS para o mesmo número...");
 }
 </script>
 
